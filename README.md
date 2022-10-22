@@ -1,10 +1,11 @@
-# workbook
+# Lessons Manager
 
-A mobile app for managing students and lessons. This app is created as an example with 2 architecture approaches: BLoC and Stateful widgets.
+A mobile app for managing students and lessons.
+This repository is created as an example of a flutter app developed by me.
 
-## Getting Started
+There are 2 architecture approaches used in this project: BLoC and Stateful widgets.
 
-In this project you can see user interfaces created with 2 types of state management:
+## User Interfaces And State Management
 
 - bloc architecture -
 1) lib > ui > screens > courses
@@ -22,4 +23,9 @@ In this project you can see user interfaces created with 2 types of state manage
 
 - stateful widgets -
 1) lib > ui > screens > auth
+                            > login_screen.dart
+                            > registration_screen.dart
 2) lib > ui > screens > profile
+                            > profile_edit_screen.dart
+                            > profile_form_screen.dart
+                            > profile_view_screen.dart
