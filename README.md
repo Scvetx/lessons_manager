@@ -1,16 +1,25 @@
 # workbook
 
-A new Flutter project.
+A mobile app for managing students and lessons. This app is created as an example with 2 architecture approaches: BLoC and Stateful widgets.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+In this project you can see user interfaces created with 2 types of state management:
 
-A few resources to get you started if this is your first Flutter project:
+- bloc architecture -
+1) lib > ui > screens > courses
+                            > course_form_screen.dart
+                            > course_view_screen.dart
+                            > courses_screen.dart
+2) lib > ui > screens > lessons
+                            > lesson_form_screen.dart
+                            > lesson_view_screen.dart
+                            > lessons_screen.dart
+3) lib > ui > screens > students
+                            > student_form_screen.dart
+                            > student_view_screen.dart
+                            > students_screen.dart
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- stateful widgets -
+1) lib > ui > screens > auth
+2) lib > ui > screens > profile
