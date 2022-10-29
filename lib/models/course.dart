@@ -11,7 +11,8 @@ class Course extends CObject {
   final String teacherId; // teacher's User id
 
   // --- CONSTRUCTORS ---
-  Course({required this.teacherId});
+  Course({required this.teacherId}) : super.initEmpty(nameLength: fNameLength);
+
   Course.fromMap(Map<String, dynamic> objMap) // parse db map to Course obj
       : teacherId = objMap['teacherId'],
         super.fromValues(name: objMap['name'] ?? '', nameLength: fNameLength);

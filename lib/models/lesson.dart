@@ -22,7 +22,8 @@ class Lesson extends CObject {
       CoursesField(label: fCoursesNamesLabel, values: []);
 
   // --- CONSTRUCTORS ---
-  Lesson({required this.teacherId});
+  Lesson({required this.teacherId}) : super.initEmpty(nameLength: fNameLength);
+
   Lesson.fromMap(Map<String, dynamic> objMap) // parse db map to Lesson obj
       : teacherId = objMap['teacherId'] ?? '',
         super.fromValues(name: objMap['name'] ?? '', nameLength: fNameLength) {
