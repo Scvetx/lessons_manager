@@ -52,7 +52,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                 TextInputCmp(
                     placeholder: CObject.fNameLabel,
                     curValue: _curProfile.name.value,
-                    length: _curProfile.name.length,
+                    length: _curProfile.name.maxLength,
                     onChange: (value) {
                       setState(() {
                         _curProfile.name.value = value;
@@ -64,7 +64,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                 TextInputCmp(
                     placeholder: Profile.fEmailLabel,
                     curValue: _curProfile.email.value,
-                    length: _curProfile.email.length,
+                    length: _curProfile.email.maxLength,
                     onChange: (value) {
                       setState(() {
                         _curProfile.email.value = value;

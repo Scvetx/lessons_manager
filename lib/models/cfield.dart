@@ -8,10 +8,10 @@ abstract class CField {
 
 // text field used on records forms
 class TextCField extends CField {
-  late String value;
-  int? length;
+  String value;
+  int? maxLength;
 
-  TextCField({required String label, required this.value, this.length})
+  TextCField({required String label, required this.value, this.maxLength})
       : super(label: label);
 }
 
@@ -31,7 +31,7 @@ class LanguageLevelField extends CField {
 }
 
 class CoursesField extends CField {
-  late List<String> values;
+  List<String> values;
 
   CoursesField({required String label, required this.values})
       : super(label: label) {

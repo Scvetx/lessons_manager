@@ -25,7 +25,7 @@ class Profile extends CObject {
   String photoURL = ''; // user's photo URL
 
   TextCField email = TextCField(
-      label: fEmailLabel, value: '', length: fEmailLength); // user's email
+      label: fEmailLabel, value: '', maxLength: fEmailLength); // user's email
 
   // --- CONSTRUCTORS ---
   Profile() : super.initEmpty(nameLength: fNameLength);

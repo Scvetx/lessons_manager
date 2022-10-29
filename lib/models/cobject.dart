@@ -14,11 +14,11 @@ abstract class CObject {
   // --- CONSTRUCTORS ---
   CObject();
   CObject.initEmpty({int? nameLength}) {
-    name.length = nameLength;
+    name.maxLength = nameLength;
   }
   CObject.fromValues({this.id, required String name, int? nameLength}) {
     this.name.value = name;
-    this.name.length = nameLength;
+    this.name.maxLength = nameLength;
   }
 
   // --- METHODS ---
