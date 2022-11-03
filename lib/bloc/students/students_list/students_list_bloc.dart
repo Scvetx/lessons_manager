@@ -31,15 +31,10 @@ class StudentsListBloc extends Bloc<StudentsListEvent, StudentsListState> {
 // --- state events: list layout ---
   void init(Set<String>? studentsIds) async {
     try {
-      print('here');
-      print(studentsIds);
       List<Student> allStudents = await _repository.queryAllActiveStudents();
-      print(allStudents[0].id);
-      print(allStudents[1].id);
       List<Student> students = studentsIds == null
           ? allStudents
           : _repository.filterStudentsByIds(allStudents, studentsIds);
-      print(students);
       StudentsListWrap listWrap = StudentsListWrap(students: students);
       add(ReadyStudentsListEvent(listWrap: listWrap));
     } on Exception catch (e) {
