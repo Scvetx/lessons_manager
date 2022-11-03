@@ -35,9 +35,16 @@ class _TextInput_cmpState extends State<TextInputCmp> {
   void initController() {
     _controller = TextEditingController.fromValue(
         TextEditingValue(text: widget.curValue));
+
     _controller.addListener(() {
-      widget.curValue = _controller.text;
-      widget.onChange(widget.curValue);
+      if (_controller.text.length <= widget.length!) {
+        widget.curValue = _controller.text;
+        widget.onChange(widget.curValue);
+      } else {
+        _controller.value =
+            TextEditingValue.fromJSON({'text': widget.curValue});
+        //_controller.text = widget.curValue;
+      }
     });
   }
 
@@ -51,7 +58,7 @@ class _TextInput_cmpState extends State<TextInputCmp> {
     return Column(children: [
       TextField(
         controller: _controller,
-        maxLength: widget.length,
+        //maxLength: widget.length, // doesn't work in android: replaced with controller listener
         textAlign: TextAlign.left,
         minLines: minLines,
         maxLines: minLines + 5,
