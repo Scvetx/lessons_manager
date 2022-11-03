@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+/* A Layout to show lock a screen while waiting for some process
+*/
 
+import 'package:flutter/material.dart';
 import 'package:workbook/ui/components/app/menu/app_menu_cmp.dart';
 
 class LoadingLayout extends StatelessWidget {

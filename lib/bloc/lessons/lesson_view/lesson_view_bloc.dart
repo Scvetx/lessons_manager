@@ -36,7 +36,7 @@ class LessonViewBloc extends Bloc<LessonViewEvent, LessonViewState> {
 
   void toDeleting() async {
     try {
-      await _repository.deleteRecord(state.viewWrap!.lesson.id!);
+      await _repository.deleteRecord(state.viewWrap!.lesson);
       NavigationService.clearRouteAndPushNamed(LessonsScreen.id, null);
     } on Exception catch (e) {
       toError(e.toString());

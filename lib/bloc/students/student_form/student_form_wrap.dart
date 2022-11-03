@@ -4,6 +4,7 @@ import 'package:workbook/models/student.dart';
 
 class StudentFormWrap {
   bool isNew = false;
+  late Student? oldStudent;
   late Student student;
   late Map<String, TextCField> fieldsMap;
 
@@ -12,9 +13,10 @@ class StudentFormWrap {
       // user is creating record
       isNew = true;
       String teacherId = FirebaseAuthService.getUserIdIfLoggedIn() ?? '';
-      this.student = Student(teacherId: teacherId);
+      this.student = Student.create(teacherId: teacherId);
     } else {
       // user is editing record
+      oldStudent = student.copy();
       this.student = student;
     }
     _getFormTextFields();

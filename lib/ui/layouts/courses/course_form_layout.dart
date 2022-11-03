@@ -1,3 +1,6 @@
+/* A Layout fot course_form_screen.dart
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workbook/bloc/courses/course_form/course_form_bloc.dart';
@@ -13,6 +16,7 @@ class CourseFormLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CourseFormBloc bloc = BlocProvider.of<CourseFormBloc>(context);
+    if (bloc.state.formWrap == null) return Container();
     final CourseFormWrap formWrap = bloc.state.formWrap!;
 
     return Scaffold(

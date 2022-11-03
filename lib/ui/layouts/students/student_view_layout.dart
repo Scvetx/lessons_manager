@@ -1,3 +1,6 @@
+/* A Layout fot student_view_screen.dart
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workbook/bloc/students/student_view/student_view_bloc.dart';
@@ -10,11 +13,13 @@ import 'package:workbook/constants/styles/app_style.dart';
 import 'package:workbook/constants/styles/object_view_style.dart';
 import 'package:workbook/ui/components/app/containers/screen_container_cmp.dart';
 import 'package:workbook/ui/components/app/buttons/bottom_button_cmp.dart';
+import 'package:workbook/ui/components/courses/courses_names_row_cmp.dart';
 
 class StudentViewLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StudentViewBloc bloc = BlocProvider.of<StudentViewBloc>(context);
+    if (bloc.state.viewWrap == null) return Container();
     final StudentViewWrap viewWrap = bloc.state.viewWrap!;
 
     return Scaffold(
@@ -52,18 +57,11 @@ class StudentViewLayout extends StatelessWidget {
                 style: ovLanguageLevelStyle),
           ]),
           const SizedBox(height: spaceBetweenLinesLarge),
-          Wrap(runSpacing: 14, children: [
-            for (int i = 0;
-                i < viewWrap.student.coursesNames.values.length;
-                i++)
-              Text(
-                  '${viewWrap.student.coursesNames.values[i]}${i < viewWrap.student.coursesNames.values.length - 1 ? ',   ' : ''}',
-                  style: ovCoursesNamesStyle),
-          ]),
+          CoursesNamesRowCmp(coursesIds: viewWrap.student.coursesIds),
         ]),
       ),
       bottomNavigationBar: BottomButtonCmp(
-          title: '$labelDelete ${Student.label}',
+          title: '$labelDeactivate ${Student.label}',
           color: Colors.redAccent,
           onPressed: bloc.toDelete),
     );

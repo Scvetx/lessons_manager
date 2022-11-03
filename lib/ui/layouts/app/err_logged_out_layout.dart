@@ -1,3 +1,6 @@
+/* A Layout to show an error when user is logged out
+*/
+
 import 'package:flutter/material.dart';
 import 'package:workbook/constants/labels.dart';
 import 'package:workbook/constants/styles/app_style.dart';

@@ -1,4 +1,4 @@
-/* Custom Widget - a list of text inputs used to create/edit records
+/* Custom Widget - a list of text inputs to create/edit records on forms
 */
 
 import 'package:flutter/material.dart';

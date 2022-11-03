@@ -1,4 +1,4 @@
-/* List of lessons created by the teacher or from the global library
+/* A Layout fot lessons_screen.dart
 */
 
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class LessonsListLayout extends StatelessWidget {
           ],
         ),
         body: ScreenContainerCmp(
-          child: LessonsListCmp(lessons: listWrap.lessons),
+          child: LessonsListCmp(),
         ),
         bottomNavigationBar: BottomButtonCmp(
             title: '$labelAdd ${Lesson.label}', onPressed: bloc.toNewRecord));

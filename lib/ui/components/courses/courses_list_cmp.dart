@@ -1,23 +1,24 @@
+/* Custom Widget - a list of courses component
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workbook/bloc/courses/courses_list/courses_list_bloc.dart';
+import 'package:workbook/bloc/courses/courses_list/courses_list_wrap.dart';
 
 import 'package:workbook/models/course.dart';
 import 'package:workbook/ui/components/app/list/list_cmp.dart';
 
 class CoursesListCmp extends StatelessWidget {
-  final List<Course> courses;
-  const CoursesListCmp({required this.courses});
-
   @override
   Widget build(BuildContext context) {
     final CoursesListBloc bloc = BlocProvider.of<CoursesListBloc>(context);
+    final CoursesListWrap listWrap = bloc.state.listWrap!;
+
     return ListCmp(rows: [
-      for (Course curCourse in courses)
+      for (Course curCourse in listWrap.courses)
         InkWell(
-          onTap: () {
-            bloc.toViewRecord(curCourse);
-          },
+          onTap: () => bloc.toViewRecord(curCourse),
           child: Row(children: [
             Expanded(
               child: Flex(direction: Axis.horizontal, children: [
@@ -37,9 +38,7 @@ class CoursesListCmp extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(Icons.edit),
                 iconSize: 16,
-                onPressed: () {
-                  bloc.toEditRecord(curCourse);
-                },
+                onPressed: () => bloc.toEditRecord(curCourse),
               ),
             ),
           ]),

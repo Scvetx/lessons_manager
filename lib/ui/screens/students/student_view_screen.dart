@@ -1,4 +1,4 @@
-/* A page where a teacher can view content of the student
+/* A page where a teacher can view info about the student
  */
 
 import 'package:flutter/material.dart';

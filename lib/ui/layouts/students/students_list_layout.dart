@@ -1,3 +1,6 @@
+/* A Layout fot students_screen.dart
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workbook/bloc/students/students_list/students_list_bloc.dart';
@@ -26,7 +29,7 @@ class StudentsListLayout extends StatelessWidget {
         ],
       ),
       body: ScreenContainerCmp(
-        child: StudentsListCmp(students: listWrap.students),
+        child: StudentsListCmp(),
       ),
       bottomNavigationBar: BottomButtonCmp(
           title: '$labelAdd ${Student.label}', onPressed: bloc.toNewRecord),

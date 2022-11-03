@@ -12,7 +12,9 @@ import 'students_list_wrap.dart';
 class StudentsListBloc extends Bloc<StudentsListEvent, StudentsListState> {
   final StudentRepository _repository = StudentRepository();
 
-  StudentsListBloc() : super(LoadingStudentsListState()) {
+  // if students ids list is not passed in params then query all teacher's students
+  StudentsListBloc({Set<String>? studentsIds})
+      : super(LoadingStudentsListState()) {
     // --- state events: list layout ---
     on<ReadyStudentsListEvent>((event, emit) => _onReady(event));
     on<ErrorStudentsListEvent>((event, emit) => _onError(event));
@@ -22,14 +24,22 @@ class StudentsListBloc extends Bloc<StudentsListEvent, StudentsListState> {
     on<ViewRecordStudentsListEvent>((event, emit) => _onViewRecord(event));
     on<EditRecordStudentsListEvent>((event, emit) => _onEditRecord(event));
 
-    init();
+    init(studentsIds);
   }
 
 // - ADD EVENTS -
 // --- state events: list layout ---
-  void init() async {
+  void init(Set<String>? studentsIds) async {
     try {
-      List<Student> students = await _repository.queryAllStudents();
+      print('here');
+      print(studentsIds);
+      List<Student> allStudents = await _repository.queryAllActiveStudents();
+      print(allStudents[0].id);
+      print(allStudents[1].id);
+      List<Student> students = studentsIds == null
+          ? allStudents
+          : _repository.filterStudentsByIds(allStudents, studentsIds);
+      print(students);
       StudentsListWrap listWrap = StudentsListWrap(students: students);
       add(ReadyStudentsListEvent(listWrap: listWrap));
     } on Exception catch (e) {
@@ -75,11 +85,19 @@ class StudentsListBloc extends Bloc<StudentsListEvent, StudentsListState> {
   }
 
 // --- actions events: list item ---
-  void _onViewRecord(ViewRecordStudentsListEvent event) {
+  void _onViewRecord(ViewRecordStudentsListEvent event) async {
+    // get courses which the student attends
+    event.student.courses =
+        await _repository.queryRelatedCourses(event.student.id!);
+
     NavigationService.pushNamed(StudentViewScreen.id, event.student);
   }
 
-  void _onEditRecord(EditRecordStudentsListEvent event) {
+  void _onEditRecord(EditRecordStudentsListEvent event) async {
+    // get courses which the student attends
+    event.student.courses =
+        await _repository.queryRelatedCourses(event.student.id!);
+
     NavigationService.pushNamed(StudentFormScreen.id, event.student);
   }
 

@@ -1,4 +1,4 @@
-/* Login screen for teachers
+/* login screen
 */
 
 import 'package:flutter/material.dart';
@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   await FirebaseAuthService.auth.signInWithEmailAndPassword(
                       email: email, password: password);
                   if (!mounted) return;
-                  Navigator.pushNamed(context, StudentsScreen.id);
+                  Navigator.popAndPushNamed(context, StudentsScreen.id);
                 } on Exception catch (e) {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBarCmp(text: e.toString()));
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: LinkText(
                 text: labelRegisterButton,
                 onPressed: () {
-                  Navigator.popAndPushNamed(context, RegistrationScreen.id);
+                  Navigator.pushNamed(context, RegistrationScreen.id);
                 },
               ),
             )

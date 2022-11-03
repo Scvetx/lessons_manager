@@ -1,9 +1,8 @@
-/* Custom Widget - a button with rounded borders
+/* Custom Widget - clickable text
 */
 
 import 'package:flutter/material.dart';
 import 'package:workbook/constants/styles/app_style.dart';
-import 'package:workbook/constants/labels.dart';
 
 class LinkText extends StatelessWidget {
   final String text;

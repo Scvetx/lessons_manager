@@ -4,6 +4,7 @@ import 'package:workbook/models/lesson.dart';
 
 class LessonFormWrap {
   bool isNew = false;
+  late Lesson? oldLesson;
   late Lesson lesson;
   late Map<String, TextCField> fieldsMap;
 
@@ -15,6 +16,7 @@ class LessonFormWrap {
       this.lesson = Lesson(teacherId: teacherId);
     } else {
       // user is editing record
+      oldLesson = lesson.copy();
       this.lesson = lesson;
     }
     _getFormTextFields();

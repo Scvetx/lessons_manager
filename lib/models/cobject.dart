@@ -1,17 +1,15 @@
 import 'cfield.dart';
 
 abstract class CObject {
-  // --- STATIC ---
+// ----- STATIC -----
   static const String fNameLabel = 'Name';
 
-  // --- VARIABLES ---
-  String? id; // obj id in database
-  late TextCField name = TextCField(
-      // obj name
-      label: CObject.fNameLabel,
-      value: '');
+// ----- FIELDS -----
+  String? id; // object id in db
+  late TextCField name =
+      TextCField(label: CObject.fNameLabel, value: ''); // object name in db
 
-  // --- CONSTRUCTORS ---
+// ----- CONSTRUCTORS -----
   CObject();
   CObject.initEmpty({int? nameLength}) {
     name.maxLength = nameLength;
@@ -21,24 +19,24 @@ abstract class CObject {
     this.name.maxLength = nameLength;
   }
 
-  // --- METHODS ---
-  Map<String, dynamic> toMap() {
-    // convert obj to database map
-    Map<String, dynamic> map = {'name': name.value};
-    return map;
-  }
+// ----- DB METHODS -----
+  // convert obj to database map
+  Map<String, dynamic> toMap() => {'name': name.value};
 
-  Map<String, TextCField> getFormTextFieldsMap() {
-    // a map of fields available on a form
-    return {
-      'name': name,
-    };
-  }
+// ----- FORM METHODS -----
+  // a map of Text fields for Text Inputs on forms
+  Map<String, TextCField> getFormTextFieldsMap() => {'name': name};
 
+  // set values entered on the form to the cObj fields
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
-    // set values from a form to obj fields
     name = fieldsMap['name']!;
   }
 
+// ----- COPY OBJECT METHOD -----
+  // copy current cObj as a new Instance of CObject
+  void copy() {}
+
+// ----- VALIDATE FIELDS METHOD -----
+  // validate if the cObj fields were entered correctly
   void validateFields() {}
 }

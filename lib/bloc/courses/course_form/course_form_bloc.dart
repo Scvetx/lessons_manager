@@ -43,8 +43,12 @@ class CourseFormBloc extends Bloc<CourseFormEvent, CourseFormState> {
 
   void toSaving() async {
     try {
-      await _repository.upsertRecord(
-          state.formWrap!.isNew, state.formWrap!.course);
+      if (state.formWrap!.isNew) {
+        await _repository.createRecord(state.formWrap!.course);
+      } else {
+        await _repository.updateRecord(
+            state.formWrap!.course, state.formWrap!.oldCourse!);
+      }
       NavigationService.clearRouteAndPushNamed(CoursesScreen.id, null);
     } on Exception catch (e) {
       toError(e.toString());

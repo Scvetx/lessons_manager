@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 class LanguageLevel {
-  // --- STATIC ---
+// ----- STATIC -----
   static List<String> getLanguageLevels() =>
       ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-  // --- VARIABLES ---
+// ----- FIELDS -----
   late String value;
   late Color labelColor;
   late Color frameColor;
 
-  // --- CONSTRUCTORS ---
+// ----- CONSTRUCTORS -----
   LanguageLevel(this.value) {
     _setLabelColor();
     _setFrameColor();
   }
 
-  // --- METHODS ---
+// ----- GET COLOR METHODS -----
   void _setLabelColor() {
     switch (value) {
       case 'A0':
@@ -75,6 +75,7 @@ class LanguageLevel {
     }
   }
 
-  bool operator >(LanguageLevel other) => value.compareTo(other.value) != -1;
-  bool operator <(LanguageLevel other) => value.compareTo(other.value) != 1;
+// ----- CUSTOM OPERATORS -----
+  bool operator >(LanguageLevel other) => value.compareTo(other.value) == 1;
+  bool operator <(LanguageLevel other) => value.compareTo(other.value) == -1;
 }

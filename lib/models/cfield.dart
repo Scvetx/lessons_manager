@@ -15,7 +15,7 @@ class TextCField extends CField {
       : super(label: label);
 }
 
-// text field used on records forms
+// LanguageLevel used on lessons, students
 class LanguageLevelField extends CField {
   late LanguageLevel langLevel;
 
@@ -28,13 +28,4 @@ class LanguageLevelField extends CField {
 
   bool operator >(LanguageLevelField other) => langLevel > other.langLevel;
   bool operator <(LanguageLevelField other) => langLevel < other.langLevel;
-}
-
-class CoursesField extends CField {
-  List<String> values;
-
-  CoursesField({required String label, required this.values})
-      : super(label: label) {
-    if (values.isNotEmpty) values.sort();
-  }
 }

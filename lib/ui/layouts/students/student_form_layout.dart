@@ -1,5 +1,5 @@
-/* A form where a teacher can create/edit a lesson
- */
+/* A Layout fot student_form_screen.dart
+*/
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,11 +15,13 @@ import 'package:workbook/ui/components/app/form/form_cmp.dart';
 import 'package:workbook/ui/components/app/buttons/bottom_button_cmp.dart';
 import 'package:workbook/ui/components/language_level/language_levels_buttons_row_cmp.dart';
 import 'package:workbook/ui/components/courses/courses_buttons_row_cmp.dart';
+import 'package:workbook/ui/components/app/data_buttons/button_wrap.dart';
 
 class StudentFormLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StudentFormBloc bloc = BlocProvider.of<StudentFormBloc>(context);
+    if (bloc.state.formWrap == null) return Container();
     final StudentFormWrap formWrap = bloc.state.formWrap!;
 
     return Scaffold(
@@ -31,21 +33,32 @@ class StudentFormLayout extends StatelessWidget {
         child: Column(children: [
           FormCmp(formWrap.fieldsMap),
           LanguageLevelsButtonsRowCmp(
-              label: '${Student.fLanguageLevelLabel}: ',
-              selectedValue: formWrap.student.languageLevel?.value,
-              onSelect: (String value) {
-                formWrap.student.languageLevel.value = value;
-              }),
+            label: '${Student.fLanguageLevelLabel}: ',
+            isSelected: (val) => formWrap.student.languageLevel.value == val,
+            onSelect: (ButtonWrap btn) {
+              formWrap.student.languageLevel.value = btn.key;
+            },
+          ),
           const SizedBox(height: spaceBetweenLines),
           LanguageLevelsButtonsRowCmp(
-              label: '${Student.fGoalLabel}: ',
-              selectedValue: formWrap.student.goal?.value,
-              onSelect: (String value) {
-                formWrap.student.goal.value = value;
-              }),
+            label: '${Student.fGoalLabel}: ',
+            isSelected: (val) => formWrap.student.goal.value == val,
+            onSelect: (ButtonWrap btn) {
+              formWrap.student.goal.value = btn.key;
+            },
+          ),
           const SizedBox(height: spaceBetweenLinesLarge),
           CoursesButtonsRowCmp(
-              selectedCoursesNames: formWrap.student.coursesNames.values),
+            multipleSelect: true,
+            isSelected: (val) => formWrap.student.containsCourse(val),
+            onSelect: (ButtonWrap btn) {
+              if (btn.selected) {
+                formWrap.student.addCourse(btn.key);
+              } else {
+                formWrap.student.removeCourse(btn.key);
+              }
+            },
+          ),
         ]),
       ),
       bottomNavigationBar:

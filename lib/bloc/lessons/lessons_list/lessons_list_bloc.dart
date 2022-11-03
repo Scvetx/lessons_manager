@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:workbook/services/app/navigation/navigation_service.dart';
 import 'package:workbook/services/lessons/lesson_repository.dart';
+import 'package:workbook/services/courses/course_repository.dart';
 
 import 'package:workbook/models/lesson.dart';
 import 'package:workbook/ui/screens/lessons/lesson_form_screen.dart';
@@ -11,8 +12,9 @@ import 'lessons_list_wrap.dart';
 
 class LessonsListBloc extends Bloc<LessonsListEvent, LessonsListState> {
   final LessonRepository _repository = LessonRepository();
+  final CourseRepository _courseRepository = CourseRepository();
 
-  LessonsListBloc() : super(LoadingLessonsListState()) {
+  LessonsListBloc(Set<String>? lessonsIds) : super(LoadingLessonsListState()) {
     // --- state events: list layout ---
     on<ReadyLessonsListEvent>((event, emit) => _onReady(event));
     on<ErrorLessonsListEvent>((event, emit) => _onError(event));
@@ -22,14 +24,17 @@ class LessonsListBloc extends Bloc<LessonsListEvent, LessonsListState> {
     on<ViewRecordLessonsListEvent>((event, emit) => _onViewRecord(event));
     on<EditRecordLessonsListEvent>((event, emit) => _onEditRecord(event));
 
-    init();
+    init(lessonsIds);
   }
 
 // - ADD EVENTS -
 // --- state events: list layout ---
-  void init() async {
+  void init(Set<String>? lessonsIds) async {
     try {
-      List<Lesson> lessons = await _repository.queryAllLessons();
+      List<Lesson> allLessons = await _repository.queryAllLessons();
+      List<Lesson> lessons = lessonsIds == null
+          ? allLessons
+          : _repository.filterLessonsByIds(allLessons, lessonsIds!);
       LessonsListWrap listWrap = LessonsListWrap(lessons: lessons);
       add(ReadyLessonsListEvent(listWrap: listWrap));
     } on Exception catch (e) {
@@ -75,7 +80,12 @@ class LessonsListBloc extends Bloc<LessonsListEvent, LessonsListState> {
   }
 
 // --- actions events: list item ---
-  void _onViewRecord(ViewRecordLessonsListEvent event) {
+  void _onViewRecord(ViewRecordLessonsListEvent event) async {
+    // get parent course
+    if (event.lesson.courseId.isNotEmpty) {
+      event.lesson.course =
+          await _courseRepository.queryCourseById(event.lesson.courseId);
+    }
     NavigationService.pushNamed(LessonViewScreen.id, event.lesson);
   }
 

@@ -2,13 +2,12 @@
 */
 
 import 'package:flutter/material.dart';
-
-import 'package:workbook/constants/labels.dart';
 import 'package:workbook/models/course.dart';
 import 'package:workbook/models/lesson.dart';
 import 'package:workbook/models/profile.dart';
 import 'package:workbook/models/student.dart';
 
+import 'package:workbook/constants/labels.dart';
 import 'package:workbook/ui/screens/profile//profile_view_screen.dart';
 import 'package:workbook/ui/screens/schedule/schedule_screen.dart';
 import 'package:workbook/ui/screens/lessons/lessons_screen.dart';

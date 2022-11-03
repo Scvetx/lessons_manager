@@ -1,4 +1,4 @@
-/* List of student_view created by the teacher or from the global library
+/* List of courses created by the teacher
 */
 
 import 'package:flutter/material.dart';
@@ -19,7 +19,6 @@ class CoursesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!FirebaseAuthService.loggedIn) return ErrLoggedOutCmp();
-
     return BlocProvider<CoursesListBloc>(
       create: (context) => CoursesListBloc(),
       child: BlocConsumer<CoursesListBloc, CoursesListState>(
@@ -31,8 +30,6 @@ class CoursesScreen extends StatelessWidget {
           }
         },
         listener: (context, state) {
-          final CoursesListBloc bloc =
-              BlocProvider.of<CoursesListBloc>(context);
           if (state is ErrorCoursesListState) {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBarCmp(text: state.errMsg!));

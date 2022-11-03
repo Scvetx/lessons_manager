@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:workbook/services/app/navigation/navigation_service.dart';
 import 'package:workbook/services/courses/course_repository.dart';
+import 'package:workbook/services/lessons/lesson_repository.dart';
 
 import 'package:workbook/models/course.dart';
 import 'package:workbook/ui/screens/courses/course_form_screen.dart';
@@ -11,6 +12,7 @@ import 'courses_list_wrap.dart';
 
 class CoursesListBloc extends Bloc<CoursesListEvent, CoursesListState> {
   final CourseRepository _repository = CourseRepository();
+  final LessonRepository _lessonRepository = LessonRepository();
 
   CoursesListBloc() : super(LoadingCoursesListState()) {
     // --- state events: list layout ---
@@ -75,11 +77,24 @@ class CoursesListBloc extends Bloc<CoursesListEvent, CoursesListState> {
   }
 
 // --- actions events: list item ---
-  void _onViewRecord(ViewRecordCoursesListEvent event) {
+  void _onViewRecord(ViewRecordCoursesListEvent event) async {
+    // get courses attendees related to the course
+    event.course.courseAttendees =
+        await _repository.queryRelatedAttendees(event.course.id!);
+    // get lessons related to the course
+    event.course.lessons =
+        await _lessonRepository.queryLessonsByCourseId(event.course.id!);
     NavigationService.pushNamed(CourseViewScreen.id, event.course);
   }
 
-  void _onEditRecord(EditRecordCoursesListEvent event) {
+  void _onEditRecord(EditRecordCoursesListEvent event) async {
+    // get courses attendees related to the course
+    event.course.courseAttendees =
+        await _repository.queryRelatedAttendees(event.course.id!);
+    // get lessons related to the course
+    event.course.lessons =
+        await _lessonRepository.queryLessonsByCourseId(event.course.id!);
+
     NavigationService.pushNamed(CourseFormScreen.id, event.course);
   }
 

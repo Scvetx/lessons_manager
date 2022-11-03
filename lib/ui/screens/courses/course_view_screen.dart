@@ -25,10 +25,10 @@ class CourseViewScreen extends StatelessWidget {
       create: (context) => CourseViewBloc(course: initCourse),
       child: BlocConsumer<CourseViewBloc, CourseViewState>(
         builder: (context, state) {
-          return DisableScreenCmp(
-            disable: state.disableScreen,
-            child: CourseViewLayout(),
-          );
+            return DisableScreenCmp(
+              disable: state.disableScreen,
+              child: CourseViewLayout(),
+            );
         },
         listener: (context, state) {
           final CourseViewBloc bloc = BlocProvider.of<CourseViewBloc>(context);

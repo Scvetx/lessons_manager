@@ -1,4 +1,4 @@
-/* Custom Widget - a listview used to present a list of records on the screen
+/* Custom Widget - a listview used to present records on the screen
 */
 
 import 'package:flutter/material.dart';

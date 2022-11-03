@@ -20,8 +20,11 @@ class StudentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!FirebaseAuthService.loggedIn) return ErrLoggedOutCmp();
 
+    Set<String>? studentsIds =
+        ModalRoute.of(context)?.settings.arguments as Set<String>?;
+
     return BlocProvider<StudentsListBloc>(
-      create: (context) => StudentsListBloc(),
+      create: (context) => StudentsListBloc(studentsIds: studentsIds),
       child: BlocConsumer<StudentsListBloc, StudentsListState>(
         builder: (context, state) {
           if (state is LoadingStudentsListState) {
@@ -31,8 +34,6 @@ class StudentsScreen extends StatelessWidget {
           }
         },
         listener: (context, state) {
-          final StudentsListBloc bloc =
-              BlocProvider.of<StudentsListBloc>(context);
           if (state is ErrorStudentsListState) {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBarCmp(text: state.errMsg!));

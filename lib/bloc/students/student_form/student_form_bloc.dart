@@ -44,8 +44,12 @@ class StudentFormBloc extends Bloc<StudentFormEvent, StudentFormState> {
 
   void toSaving() async {
     try {
-      await _repository.upsertRecord(
-          state.formWrap!.isNew, state.formWrap!.student);
+      if (state.formWrap!.isNew) {
+        await _repository.createStudentAndUser(state.formWrap!.student);
+      } else {
+        await _repository.updateRecord(
+            state.formWrap!.student, state.formWrap!.oldStudent!);
+      }
       NavigationService.clearRouteAndPushNamed(StudentsScreen.id, null);
     } on Exception catch (e) {
       toError(e.toString());

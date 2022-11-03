@@ -1,28 +1,30 @@
 /* Custom Widget - a list of language levels presented as buttons in a row
-*   (available language levels list is not a subject to change)
+*   (available language levels list is constant)
 */
 
 import 'package:flutter/material.dart';
-
 import 'package:workbook/models/language_level.dart';
-import 'package:workbook/ui/components/app/buttons/buttons_row_cmp.dart';
+import 'package:workbook/ui/components/app/data_buttons/index.dart';
 
 class LanguageLevelsButtonsRowCmp extends StatelessWidget {
-  String? label;
-  String? selectedValue;
-  var onSelect = (String value) {};
+  final String? label;
+  final Function isSelected;
+  final Function onSelect;
 
   LanguageLevelsButtonsRowCmp(
-      {this.label, this.selectedValue, required this.onSelect});
+      {this.label, required this.isSelected, required this.onSelect});
 
+  List<ButtonWrap> get buttons => [
+        for (var langLevel in LanguageLevel.getLanguageLevels())
+          ButtonWrap(
+              key: langLevel,
+              label: langLevel,
+              selected: isSelected(langLevel),
+              onSelect: onSelect)
+      ];
+
+  @override
   Widget build(BuildContext context) {
-    return ButtonsRowCmp(
-        label: label,
-        selectedValue: selectedValue,
-        tagsList: LanguageLevel.getLanguageLevels(),
-        onSelect: (String value) {
-          selectedValue = value;
-          onSelect(value);
-        });
+    return ButtonsRowCmp(label: label, buttons: buttons);
   }
 }

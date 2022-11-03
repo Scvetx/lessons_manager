@@ -37,7 +37,7 @@ class StudentViewBloc extends Bloc<StudentViewEvent, StudentViewState> {
 
   void toDeleting() async {
     try {
-      await _repository.removeTeacherId(state.viewWrap!.student);
+      await _repository.deactivateStudent(state.viewWrap!.student);
       NavigationService.clearRouteAndPushNamed(StudentsScreen.id, null);
     } on Exception catch (e) {
       toError(e.toString());

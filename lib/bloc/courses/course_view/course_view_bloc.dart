@@ -4,6 +4,8 @@ import 'package:workbook/services/courses/course_repository.dart';
 
 import 'package:workbook/models/course.dart';
 import 'package:workbook/ui/screens/courses/courses_screen.dart';
+import 'package:workbook/ui/screens/students/students_screen.dart';
+import 'package:workbook/ui/screens/lessons/lessons_screen.dart';
 import 'course_view_event.dart';
 import 'course_view_state.dart';
 import 'course_view_wrap.dart';
@@ -21,6 +23,7 @@ class CourseViewBloc extends Bloc<CourseViewEvent, CourseViewState> {
   }
 
 // - ADD EVENTS -
+// --- state events: view layout ---
   void init(Course course) {
     try {
       CourseViewWrap viewWrap = CourseViewWrap(course: course);
@@ -36,7 +39,7 @@ class CourseViewBloc extends Bloc<CourseViewEvent, CourseViewState> {
 
   void toDeleting() async {
     try {
-      await _repository.deleteRecord(state.viewWrap!.course.id!);
+      await _repository.deleteRecord(state.viewWrap!.course);
       NavigationService.clearRouteAndPushNamed(CoursesScreen.id, null);
     } on Exception catch (e) {
       toError(e.toString());
@@ -45,6 +48,17 @@ class CourseViewBloc extends Bloc<CourseViewEvent, CourseViewState> {
 
   void toError(String errMsg) {
     add(ErrorCourseViewEvent(viewWrap: state.viewWrap, errMsg: errMsg));
+  }
+
+// --- actions events: related records ---
+  void toRelatedStudents() {
+    NavigationService.pushNamed(
+        StudentsScreen.id, state.viewWrap!.course.studentsIds);
+  }
+
+  void toRelatedLessons() {
+    NavigationService.pushNamed(
+        LessonsScreen.id, state.viewWrap!.course.lessonsIds);
   }
 
 // - EVENT HANDLERS -

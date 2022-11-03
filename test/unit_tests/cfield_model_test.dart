@@ -5,7 +5,6 @@ void main() {
   testTextFieldWithLength();
   testTextFieldNoLength();
   testLanguageLevelField();
-  testCoursesField();
 }
 
 void testTextFieldWithLength() {
@@ -77,21 +76,8 @@ void testLanguageLevelField() {
 
     expect(levelA2 < levelC2, true);
     expect(levelA2 > levelC2, false);
-  });
-}
 
-void testCoursesField() {
-  test('test sorting courses in CoursesField', () {
-    // -- prepare test data --
-    String label = 'Test field';
-
-    // -- do test actions --
-    CoursesField field = CoursesField(label: label, values: ['bb', 'yy', 'aa']);
-
-    // -- check values --
-    expect(field.label, label);
-    expect(field.values[0], 'aa'); // sorted
-    expect(field.values[1], 'bb'); // sorted
-    expect(field.values[2], 'yy'); // sorted
+    expect(levelA2 < levelA2, false);
+    expect(levelA2 > levelA2, false);
   });
 }

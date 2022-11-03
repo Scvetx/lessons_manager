@@ -23,6 +23,15 @@ class TextInputCmp extends StatefulWidget {
 class _TextInput_cmpState extends State<TextInputCmp> {
   late TextEditingController _controller;
 
+  int get minLines => widget.length == null || widget.length! <= 50
+      ? 1
+      : widget.length! <= 100
+          ? 2
+          : 5;
+  TextInputType get inputType => widget.length == null || widget.length! <= 50
+      ? TextInputType.text
+      : TextInputType.multiline;
+
   void initController() {
     _controller = TextEditingController.fromValue(
         TextEditingValue(text: widget.curValue));
@@ -43,10 +52,12 @@ class _TextInput_cmpState extends State<TextInputCmp> {
       TextField(
         controller: _controller,
         maxLength: widget.length,
-        keyboardType: TextInputType.name,
         textAlign: TextAlign.left,
+        minLines: minLines,
+        maxLines: minLines + 5,
+        keyboardType: inputType,
         decoration: inputTextDecoration.copyWith(hintText: widget.placeholder),
-      ),
+      )
     ]);
   }
 }

@@ -2,7 +2,6 @@
 */
 
 import 'package:flutter/material.dart';
-
 import 'package:workbook/constants/styles/app_style.dart';
 
 class ScreenContainerCmp extends StatelessWidget {

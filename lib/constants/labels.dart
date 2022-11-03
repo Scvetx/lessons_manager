@@ -7,9 +7,11 @@ const labelAdd = 'Add a';
 const labelEdit = 'Edit';
 const labelChange = 'Change';
 const labelDelete = 'Delete the';
+const labelDeactivate = 'Deactivate the';
 const labelNew = 'New';
 const labelCard = 'Card';
 const labelMy = 'My';
+const labelRelated = 'Related';
 
 // auth
 const labelLogIn = 'Log In';

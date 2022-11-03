@@ -19,7 +19,6 @@ import 'package:workbook/ui/screens/lessons/lesson_view_screen.dart';
 import 'package:workbook/ui/screens/courses/courses_screen.dart';
 import 'package:workbook/ui/screens/courses/course_form_screen.dart';
 import 'package:workbook/ui/screens/courses/course_view_screen.dart';
-import 'package:workbook/ui/screens/schedule/schedule_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,8 +63,6 @@ class Workbook extends StatelessWidget {
         CoursesScreen.id: (context) => CoursesScreen(),
         CourseFormScreen.id: (context) => CourseFormScreen(),
         CourseViewScreen.id: (context) => CourseViewScreen(),
-        // schedule
-        ScheduleScreen.id: (context) => ScheduleScreen(),
       },
     );
   }

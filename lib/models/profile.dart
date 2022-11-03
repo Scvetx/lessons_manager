@@ -12,7 +12,7 @@ class ProfileValidationException implements Exception {
 }
 
 class Profile extends CObject {
-  // --- STATIC ---
+// ----- STATIC -----
   static const String label = 'Profile';
   static const String fEmailLabel = 'Email';
   static const String fPasswordLabel = 'Password';
@@ -21,29 +21,33 @@ class Profile extends CObject {
   static const int fNameLength = 100;
   static const int fEmailLength = 300;
 
-  // --- FIELDS ---
+// ----- FIELDS -----
   String photoURL = ''; // user's photo URL
 
   TextCField email = TextCField(
       label: fEmailLabel, value: '', maxLength: fEmailLength); // user's email
 
-  // --- CONSTRUCTORS ---
+// ----- CONSTRUCTORS -----
+  // Profile obj with empty fields: used when creating a new User record
   Profile() : super.initEmpty(nameLength: fNameLength);
 
-  Profile.fromUser(User user) // parse User obj to Profile obj
+  // convert User obj to Profile obj
+  Profile.fromUser(User user)
       : super.fromValues(
             name: user.displayName ?? '', nameLength: fNameLength) {
     photoURL = user.photoURL ?? '';
     email.value = user.email ?? '';
   }
 
-  Profile.fromMap(Map<String, dynamic> objMap) // parse db map to Profile obj
+  // parse db map to Profile obj
+  Profile.fromMap(Map<String, dynamic> objMap)
       : super.fromValues(name: objMap['name'] ?? '', nameLength: fNameLength) {
     photoURL = objMap['photoURL'] ?? '';
     email.value = objMap['email'] ?? '';
   }
 
-  // --- METHODS ---
+// ----- DB METHODS -----
+  // convert Profile to db map
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
@@ -54,6 +58,8 @@ class Profile extends CObject {
     return map;
   }
 
+// ----- FORM METHODS -----
+  // get text fields which for Text inputs on the user's form
   @override
   Map<String, TextCField> getFormTextFieldsMap() {
     Map<String, TextCField> map = super.getFormTextFieldsMap();
@@ -63,12 +69,15 @@ class Profile extends CObject {
     return map;
   }
 
+  // set values entered on the form to the Profile fields
   @override
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
     super.setFormTextFields(fieldsMap);
     email = fieldsMap['email']!;
   }
 
+// ----- VALIDATE FIELDS METHODS -----
+  // check if name was entered correctly
   void validateName() {
     if (name.value.isBlank) {
       throw ProfileValidationException(
@@ -76,6 +85,7 @@ class Profile extends CObject {
     }
   }
 
+  // check if email was entered correctly
   void validateEmail(String? password) {
     if (email.value.isBlank || password.isBlank) {
       throw ProfileValidationException('$fEmailLabel $errFieldNotEntered');
