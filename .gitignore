@@ -43,3 +43,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /lib/services/app/firebase/firebase_options.dart
+/lib/ui/components/schedule/
+/lib/ui/components/app/schedule/

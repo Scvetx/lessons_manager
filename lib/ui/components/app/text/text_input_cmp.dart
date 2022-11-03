@@ -41,9 +41,7 @@ class _TextInput_cmpState extends State<TextInputCmp> {
         widget.curValue = _controller.text;
         widget.onChange(widget.curValue);
       } else {
-        _controller.value =
-            TextEditingValue.fromJSON({'text': widget.curValue});
-        //_controller.text = widget.curValue;
+        _controller.text = widget.curValue;
       }
     });
   }

@@ -47,7 +47,7 @@ class StudentFormLayout extends StatelessWidget {
               formWrap.student.goal.value = btn.key;
             },
           ),
-          const SizedBox(height: spaceBetweenLinesLarge),
+          const SizedBox(height: spaceBetweenLines),
           CoursesButtonsRowCmp(
             multipleSelect: true,
             isSelected: (val) => formWrap.student.containsCourse(val),

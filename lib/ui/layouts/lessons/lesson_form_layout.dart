@@ -38,7 +38,7 @@ class LessonFormLayout extends StatelessWidget {
             formWrap.lesson.languageLevel.value = btn.key;
           },
         ),
-        const SizedBox(height: spaceBetweenLinesLarge),
+        const SizedBox(height: spaceBetweenLines),
         CoursesButtonsRowCmp(
           multipleSelect: false,
           isSelected: (String courseId) => formWrap.lesson.courseId == courseId,
