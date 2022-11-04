@@ -14,14 +14,14 @@ class Lesson extends CObject {
 
 // ----- FIELDS -----
   final String teacherId; // teacher's User id
-  late String courseId; // a course to which this lesson is added
+  String courseId = ''; // a course to which this lesson is added
 
-  late TextCField description = TextCField(
+  final TextCField description = TextCField(
       label: fDescriptionLabel,
       value: '',
       maxLength: fDescriptionLength); // lesson description
 
-  late LanguageLevelField languageLevel = LanguageLevelField(
+  final LanguageLevelField languageLevel = LanguageLevelField(
       label: fLanguageLevelLabel, value: ''); // lesson language level
 
 // ----- PARENT RECORDS -----
@@ -83,6 +83,6 @@ class Lesson extends CObject {
   @override
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
     super.setFormTextFields(fieldsMap);
-    description = fieldsMap['description']!;
+    description.value = fieldsMap['description']!.value;
   }
 }

@@ -26,6 +26,7 @@ class _Form_cmpState extends State<FormCmp> {
                   placeholder: textField.label,
                   curValue: textField.value,
                   length: textField.maxLength,
+                  maxNumberOfLines: textField.maxNumberOfLines,
                   onChange: (value) {
                     setState(() {
                       textField.value = value;

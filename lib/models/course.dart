@@ -14,7 +14,7 @@ class Course extends CObject {
 
 // ----- FIELDS -----
   final String teacherId; // teacher's User id
-  late TextCField description = TextCField(
+  final TextCField description = TextCField(
       label: fDescriptionLabel,
       value: '',
       maxLength: fDescriptionLength); // course description
@@ -104,6 +104,6 @@ class Course extends CObject {
   @override
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
     super.setFormTextFields(fieldsMap);
-    description = fieldsMap['description']!;
+    description.value = fieldsMap['description']!.value;
   }
 }

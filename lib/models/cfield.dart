@@ -10,8 +10,13 @@ abstract class CField {
 class TextCField extends CField {
   String value;
   int? maxLength;
+  int? maxNumberOfLines;
 
-  TextCField({required String label, required this.value, this.maxLength})
+  TextCField(
+      {required String label,
+      required this.value,
+      this.maxLength,
+      this.maxNumberOfLines})
       : super(label: label);
 }
 

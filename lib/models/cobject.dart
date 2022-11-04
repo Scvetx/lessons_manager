@@ -4,10 +4,14 @@ abstract class CObject {
 // ----- STATIC -----
   static const String fNameLabel = 'Name';
 
+  static const int fNameMaxLines = 1;
+
 // ----- FIELDS -----
   String? id; // object id in db
-  late TextCField name =
-      TextCField(label: CObject.fNameLabel, value: ''); // object name in db
+  final TextCField name = TextCField(
+      label: CObject.fNameLabel,
+      value: '',
+      maxNumberOfLines: fNameMaxLines); // object name in db
 
 // ----- CONSTRUCTORS -----
   CObject();
@@ -29,7 +33,7 @@ abstract class CObject {
 
   // set values entered on the form to the cObj fields
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
-    name = fieldsMap['name']!;
+    name.value = fieldsMap['name']!.value;
   }
 
 // ----- COPY OBJECT METHOD -----
