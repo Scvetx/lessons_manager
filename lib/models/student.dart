@@ -1,3 +1,5 @@
+import 'package:workbook/models/language_level.dart';
+
 import 'cfield.dart';
 import 'profile.dart';
 import 'course_attendee.dart';
@@ -17,7 +19,7 @@ class Student extends Profile {
   static const String fGoalLabel = 'Goal';
 
 // ----- FIELDS -----
-  late bool isActive = true; // if active then showed in the lists
+  bool isActive = true; // if active then showed in the lists
   late String teacherId; // teacher user id (empty if teacher removed student)
   late String userId; // student's User id
 

@@ -53,6 +53,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                     placeholder: CObject.fNameLabel,
                     curValue: _curProfile.name.value,
                     length: _curProfile.name.maxLength,
+                    maxNumberOfLines: _curProfile.name.maxNumberOfLines,
                     onChange: (value) {
                       setState(() {
                         _curProfile.name.value = value;
@@ -65,6 +66,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                     placeholder: Profile.fEmailLabel,
                     curValue: _curProfile.email.value,
                     length: _curProfile.email.maxLength,
+                    maxNumberOfLines: _curProfile.email.maxNumberOfLines,
                     onChange: (value) {
                       setState(() {
                         _curProfile.email.value = value;
