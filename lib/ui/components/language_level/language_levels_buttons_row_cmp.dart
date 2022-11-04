@@ -3,7 +3,7 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:workbook/models/language_level.dart';
+import 'package:workbook/constants/language_levels.dart';
 import 'package:workbook/ui/components/app/data_buttons/index.dart';
 
 class LanguageLevelsButtonsRowCmp extends StatelessWidget {
@@ -15,10 +15,10 @@ class LanguageLevelsButtonsRowCmp extends StatelessWidget {
       {this.label, required this.isSelected, required this.onSelect});
 
   List<ButtonWrap> get buttons => [
-        for (var langLevel in LanguageLevel.getLanguageLevels())
+        for (var langLevel in languageLevels)
           ButtonWrap(
-              key: langLevel,
-              label: langLevel,
+              key: langLevel.value,
+              label: langLevel.value,
               selected: isSelected(langLevel),
               onSelect: onSelect)
       ];

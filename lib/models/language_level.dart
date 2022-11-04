@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class LanguageLevel {
-// ----- STATIC -----
-  static List<String> getLanguageLevels() =>
-      ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-
 // ----- FIELDS -----
   late String value;
   late Color labelColor;
