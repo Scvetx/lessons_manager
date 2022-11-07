@@ -1,15 +1,9 @@
 import 'package:workbook/models/language_level.dart';
 
 import 'cfield.dart';
+import 'cobject.dart';
 import 'profile.dart';
 import 'course_attendee.dart';
-
-class StudentValidationException implements Exception {
-  String msg;
-  StudentValidationException(this.msg);
-  @override
-  String toString() => msg;
-}
 
 class Student extends Profile {
 // ----- STATIC -----
@@ -22,6 +16,8 @@ class Student extends Profile {
   bool isActive = true; // if active then showed in the lists
   late String teacherId; // teacher user id (empty if teacher removed student)
   late String userId; // student's User id
+  String?
+      firstLoginPassword; // tmp password generated while adding a new student
 
   final LanguageLevelField languageLevel = LanguageLevelField(
       label: fLanguageLevelLabel, value: ''); // language level set by a teacher
@@ -88,17 +84,18 @@ class Student extends Profile {
   }
 
 // ----- VALIDATE FIELDS METHODS -----
-  // validate if the Student fields were entered correctly
+  // validate entered Student fields
   @override
   void validateFields() {
+    super.validateFields();
     _validateLanguageLevelAndGoal();
   }
 
   // ensure that goal is greater than current language level
   void _validateLanguageLevelAndGoal() {
+    if (goal.value.isEmpty || languageLevel.value.isEmpty) return;
     if (goal < languageLevel) {
-      throw StudentValidationException(
-          'Language level can\'t be greater than goal');
+      throw ValidationException('Language level can\'t be greater than goal');
     }
   }
 

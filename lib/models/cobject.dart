@@ -1,4 +1,14 @@
+import 'package:workbook/extensions/string_ext.dart';
+
+import 'package:workbook/constants/labels.dart';
 import 'cfield.dart';
+
+class ValidationException implements Exception {
+  String msg;
+  ValidationException(this.msg);
+  @override
+  String toString() => msg;
+}
 
 abstract class CObject {
 // ----- STATIC -----
@@ -41,6 +51,15 @@ abstract class CObject {
   void copy() {}
 
 // ----- VALIDATE FIELDS METHOD -----
-  // validate if the cObj fields were entered correctly
-  void validateFields() {}
+  // validate entered CObject fields
+  void validateFields() {
+    validateName();
+  }
+
+  // check if name was entered correctly
+  void validateName() {
+    if (name.value.isBlank) {
+      throw ValidationException('${CObject.fNameLabel} $errFieldNotEntered');
+    }
+  }
 }

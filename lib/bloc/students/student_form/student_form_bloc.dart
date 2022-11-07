@@ -18,6 +18,8 @@ class StudentFormBloc extends Bloc<StudentFormEvent, StudentFormState> {
     on<ReadyStudentFormEvent>((event, emit) => _onReady(event));
     on<SaveStudentFormEvent>((event, emit) => _onSave(event));
     on<SavingStudentFormEvent>((event, emit) => _onSaving(event));
+    on<NewStudentPopupStudentFormEvent>(
+        (event, emit) => _onNewStudentPopup(event));
     on<ErrorStudentFormEvent>((event, emit) => _onError(event));
 
     init(student);
@@ -33,9 +35,22 @@ class StudentFormBloc extends Bloc<StudentFormEvent, StudentFormState> {
     }
   }
 
-  void toSave() {
+  // show new student popups
+  void toNewStudentPopup() {
     try {
       state.formWrap!.prepareToSave();
+      add(NewStudentPopupStudentFormEvent(formWrap: state.formWrap!));
+    } on Exception catch (e) {
+      toError(e.toString());
+    }
+  }
+
+  void _closeNewStudentPopup() {
+    NavigationService.pop();
+  }
+
+  void toSave() {
+    try {
       add(SaveStudentFormEvent(formWrap: state.formWrap!));
     } on Exception catch (e) {
       toError(e.toString());
@@ -44,6 +59,7 @@ class StudentFormBloc extends Bloc<StudentFormEvent, StudentFormState> {
 
   void toSaving() async {
     try {
+      if (state.formWrap!.isNew) _closeNewStudentPopup();
       if (state.formWrap!.isNew) {
         await _repository.createStudentAndUser(state.formWrap!.student);
       } else {
@@ -65,6 +81,12 @@ class StudentFormBloc extends Bloc<StudentFormEvent, StudentFormState> {
   void _onReady(ReadyStudentFormEvent event) {
     ReadyStudentFormState state =
         ReadyStudentFormState(formWrap: event.formWrap!);
+    _setState(state);
+  }
+
+  void _onNewStudentPopup(NewStudentPopupStudentFormEvent event) {
+    NewStudentPopupStudentFormState state =
+        NewStudentPopupStudentFormState(formWrap: event.formWrap);
     _setState(state);
   }
 

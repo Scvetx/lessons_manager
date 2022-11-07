@@ -35,15 +35,13 @@ class _TextInCircleButtonCmpState extends State<TextInCircleButtonCmp> {
     Color baseColor = widget.btn.selected ? selectedColor : defaultColor;
     Color color = _hovered ? baseColor.withOpacity(0.7) : baseColor;
 
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: InkWell(
-          onTap: _onSelect,
-          onHover: _onHover,
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          child: TextInCircleCmp(
-              text: widget.btn.label, frameColor: color, textColor: color),
-        ));
+    return InkWell(
+      onTap: _onSelect,
+      onHover: _onHover,
+      hoverColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: TextInCircleCmp(
+          text: widget.btn.label, frameColor: color, textColor: color),
+    );
   }
 }

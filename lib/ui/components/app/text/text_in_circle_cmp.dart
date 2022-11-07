@@ -8,11 +8,10 @@ class TextInCircleCmp extends StatelessWidget {
   late Color frameColor;
   Color textColor;
   TextInCircleCmp(
-      {required this.text,
+      {required String text,
       this.frameColor = Colors.grey,
-      this.textColor = Colors.grey}) {
-    frameColor = text == '' ? Colors.transparent : frameColor;
-  }
+      this.textColor = Colors.grey})
+      : text = text == '' ? '?' : text;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +20,28 @@ class TextInCircleCmp extends StatelessWidget {
           border: Border.all(
             color: frameColor,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(50))),
+          shape: text.length < 3 ? BoxShape.circle : BoxShape.rectangle,
+          borderRadius: text.length < 3
+              ? null
+              : const BorderRadius.all(Radius.circular(50))),
       child: Padding(
         padding: const EdgeInsets.all(5),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
+        child: SizedBox(
+          height: text.length < 3 ? 14 : null,
+          width: text.length < 3 ? 14 : null,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+                ),
+              ]),
         ),
       ),
     );

@@ -24,6 +24,11 @@ class SavingStudentFormState extends StudentFormState {
       : super(formWrap: formWrap, disableScreen: true);
 }
 
+class NewStudentPopupStudentFormState extends StudentFormState {
+  NewStudentPopupStudentFormState({required StudentFormWrap? formWrap})
+      : super(formWrap: formWrap);
+}
+
 class ErrorStudentFormState extends StudentFormState {
   final String errMsg;
   ErrorStudentFormState(

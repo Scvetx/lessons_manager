@@ -11,14 +11,15 @@ ThemeData appTheme = ThemeData(
   fontFamily: 'Hind',
 
   appBarTheme: const AppBarTheme(
-    backgroundColor: Color(0xFF006e8c),
+    backgroundColor: defaultHeaderColor,
   ),
 );
+// -- header --
+const Color defaultHeaderColor = Color(0xFF006e8c);
 
 // -- padding --
 const EdgeInsets screenPadding =
     EdgeInsets.symmetric(horizontal: 24, vertical: 24);
-const doubleformPadding = 24;
 
 // -- sized box --
 const double spaceBetweenLines = 24;
@@ -26,18 +27,28 @@ const double spaceBetweenLinesSmall = 14;
 const double spaceBetweenLinesLarge = 34;
 
 // -- buttons --
+const Color greyIconColor = Color(0x70BDBDBD);
 const Color defaultButtonColor = Color(0xFF008db1);
-const EdgeInsets defaultButtonPadding = EdgeInsets.all(14);
+const EdgeInsets defaultButtonPadding =
+    EdgeInsets.symmetric(vertical: 14, horizontal: 22);
 const double roundedButtonRadius = 50;
 
 // -- text --
+const greyTextColor = Color(0xFF929191);
 const TextStyle whiteText = TextStyle(
   color: Colors.white,
 );
 
+const TextStyle mBlackText = TextStyle(fontSize: 14, color: Colors.black);
+
+const TextStyle mGreyText = TextStyle(fontSize: 14, color: greyTextColor);
+const TextStyle mGreyLabel =
+    TextStyle(fontSize: 14, color: greyTextColor, fontWeight: FontWeight.bold);
+
+const TextStyle sGreyText = TextStyle(fontSize: 12, color: greyTextColor);
+
 // -- input text --
 const inputTextDecoration = InputDecoration(
-  hintText: 'Enter a value',
   contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(18.0)),

@@ -7,11 +7,15 @@ import 'package:workbook/services/app/firebase/firebase_auth_service.dart';
 import 'package:workbook/bloc/students/student_form/student_form_bloc.dart';
 import 'package:workbook/bloc/students/student_form/student_form_state.dart';
 import 'package:workbook/models/student.dart';
+import 'package:workbook/ui/components/students/popups/new_student_popup_content_cmp.dart';
 
 import 'package:workbook/ui/layouts/app/err_logged_out_layout.dart';
 import 'package:workbook/ui/layouts/students/student_form_layout.dart';
 import 'package:workbook/ui/components/app/overlay/disable_screen_cmp.dart';
 import 'package:workbook/ui/components/app/popups/snack_bar_cmp.dart';
+
+import '../../components/app/popups/popup_cmp.dart';
+import '../../components/students/popups/new_student_popup_wrap.dart';
 
 class StudentFormScreen extends StatelessWidget {
   static const String id = 'student_form_screen';
@@ -36,6 +40,11 @@ class StudentFormScreen extends StatelessWidget {
               BlocProvider.of<StudentFormBloc>(context);
           if (state is SaveStudentFormState) {
             bloc.toSaving();
+          } else if (state is NewStudentPopupStudentFormState) {
+            showDialog(
+                context: context,
+                builder: (BuildContext dialogContext) =>
+                    PopupCmp(wrap: NewStudentPopupWrap(formContext: context)));
           } else if (state is ErrorStudentFormState) {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBarCmp(text: state.errMsg!));

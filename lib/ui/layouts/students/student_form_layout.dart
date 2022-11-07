@@ -36,7 +36,8 @@ class StudentFormLayout extends StatelessWidget {
             label: '${Student.fLanguageLevelLabel}: ',
             isSelected: (val) => formWrap.student.languageLevel.value == val,
             onSelect: (ButtonWrap btn) {
-              formWrap.student.languageLevel.value = btn.key;
+              formWrap.student.languageLevel.value =
+                  btn.selected ? btn.key : '';
             },
           ),
           const SizedBox(height: spaceBetweenLines),
@@ -44,7 +45,7 @@ class StudentFormLayout extends StatelessWidget {
             label: '${Student.fGoalLabel}: ',
             isSelected: (val) => formWrap.student.goal.value == val,
             onSelect: (ButtonWrap btn) {
-              formWrap.student.goal.value = btn.key;
+              formWrap.student.goal.value = btn.selected ? btn.key : '';
             },
           ),
           const SizedBox(height: spaceBetweenLines),
@@ -61,8 +62,9 @@ class StudentFormLayout extends StatelessWidget {
           ),
         ]),
       ),
-      bottomNavigationBar:
-          BottomButtonCmp(title: labelSave, onPressed: bloc.toSave),
+      bottomNavigationBar: BottomButtonCmp(
+          title: labelSave,
+          onPressed: formWrap.isNew ? bloc.toNewStudentPopup : bloc.toSave),
     );
   }
 }

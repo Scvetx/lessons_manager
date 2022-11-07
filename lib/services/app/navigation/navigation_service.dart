@@ -21,4 +21,8 @@ class NavigationService {
     return Locator.navigatorKey.currentState!.pushNamedAndRemoveUntil(
         routeName, arguments: arguments, (Route<dynamic> route) => false);
   }
+
+  static void pop() {
+    Locator.navigatorKey.currentState!.pop();
+  }
 }
