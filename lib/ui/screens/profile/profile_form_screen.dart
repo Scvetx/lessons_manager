@@ -101,7 +101,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                     _curProfile.name.value);
               }
               if (_emailChanged) {
-                _curProfile.validateEmail(_password);
+                _curProfile.validateEmailEdit(_password);
                 await FirebaseAuthService.reauthenticateUser(_password!);
                 await FirebaseAuthService.updateUserEmail(
                     _curProfile.email.value);

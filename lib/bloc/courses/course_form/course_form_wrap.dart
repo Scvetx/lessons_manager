@@ -22,6 +22,7 @@ class CourseFormWrap {
     _getFormTextFields();
   }
   void prepareToSave() {
+    course.validateFields();
     _setFormTextFields();
   }
 

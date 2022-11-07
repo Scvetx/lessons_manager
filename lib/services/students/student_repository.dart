@@ -21,7 +21,7 @@ class StudentRepository {
   Future createStudentAndUser(Student newStudent) async {
     // create user
     User? newUser = await FirebaseAuthService.createUserWithoutSigningIn(
-        newStudent.email.value);
+        newStudent.email.value, newStudent.firstLoginPassword!);
     //create student
     if (newUser != null) {
       newStudent.userId = newUser.uid;

@@ -14,7 +14,7 @@ class Lesson extends CObject {
 
 // ----- FIELDS -----
   final String teacherId; // teacher's User id
-  late String courseId; // a course to which this lesson is added
+  String courseId = ''; // a course to which this lesson is added
 
   late TextCField description = TextCField(
       label: fDescriptionLabel,

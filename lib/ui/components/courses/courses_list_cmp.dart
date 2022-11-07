@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workbook/bloc/courses/courses_list/courses_list_bloc.dart';
 import 'package:workbook/bloc/courses/courses_list/courses_list_wrap.dart';
-
 import 'package:workbook/models/course.dart';
+
+import 'package:workbook/constants/styles/app_style.dart';
 import 'package:workbook/ui/components/app/list/list_cmp.dart';
 
 class CoursesListCmp extends StatelessWidget {
@@ -28,7 +29,7 @@ class CoursesListCmp extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.fade,
                     textAlign: TextAlign.start,
-                    style: const TextStyle(fontSize: 14, color: Colors.black),
+                    style: mBlackText,
                   ),
                 ),
               ]),

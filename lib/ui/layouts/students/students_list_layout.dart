@@ -32,7 +32,9 @@ class StudentsListLayout extends StatelessWidget {
         child: StudentsListCmp(),
       ),
       bottomNavigationBar: BottomButtonCmp(
-          title: '$labelAdd ${Student.label}', onPressed: bloc.toNewRecord),
+        title: '$labelAdd ${Student.label}',
+        onPressed: bloc.toNewRecord,
+      ),
     );
   }
 }

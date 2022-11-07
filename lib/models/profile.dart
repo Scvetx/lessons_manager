@@ -4,13 +4,6 @@ import 'cfield.dart';
 import 'cobject.dart';
 import 'package:workbook/constants/labels.dart';
 
-class ProfileValidationException implements Exception {
-  String msg;
-  ProfileValidationException(this.msg);
-  @override
-  String toString() => msg;
-}
-
 class Profile extends CObject {
 // ----- STATIC -----
   static const String label = 'Profile';
@@ -77,18 +70,24 @@ class Profile extends CObject {
   }
 
 // ----- VALIDATE FIELDS METHODS -----
-  // check if name was entered correctly
-  void validateName() {
-    if (name.value.isBlank) {
-      throw ProfileValidationException(
-          '${CObject.fNameLabel} $errFieldNotEntered');
+  // validate entered Profile fields
+  @override
+  void validateFields() {
+    super.validateFields();
+    validateEmail();
+  }
+
+  void validateEmail() {
+    if (email.value.isBlank) {
+      throw ValidationException('$fEmailLabel $errFieldNotEntered');
     }
   }
 
-  // check if email was entered correctly
-  void validateEmail(String? password) {
-    if (email.value.isBlank || password.isBlank) {
-      throw ProfileValidationException('$fEmailLabel $errFieldNotEntered');
+  // check if email and password were entered correctly while editing email
+  void validateEmailEdit(String? password) {
+    validateEmail();
+    if (password.isBlank) {
+      throw ValidationException('$fPasswordLabel $errFieldNotEntered');
     }
   }
 }

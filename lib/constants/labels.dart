@@ -12,6 +12,8 @@ const labelNew = 'New';
 const labelCard = 'Card';
 const labelMy = 'My';
 const labelRelated = 'Related';
+const labelContinue = 'Continue';
+const labelCancel = 'Cancel';
 
 // auth
 const labelLogIn = 'Log In';
@@ -22,7 +24,15 @@ const labelInputEmailHintText = 'Enter your email';
 const labelInputPasswordHintText = 'Enter your password';
 const labelRegisterButton = 'Don\'t have an account? Create now >';
 const labelLoginButton = 'Log in >';
+
+// profile
 const labelNoName = 'No Name';
+
+// new user
+const labelNewStudentPopupTitle = 'Student\'s Temporary Password';
+const labelNewStudentPopupText =
+    'Save the credentials below and send to your student. \nThe student will change the password after the first login.';
+const labelUserLogin = 'Login';
 
 // errors
 const errNoState = 'Unable to define state';

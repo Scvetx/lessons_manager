@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:workbook/ui/components/app/text/text_in_circle_cmp.dart';
 import 'package:workbook/ui/components/app/data_buttons/button_wrap.dart';
 
-class TextInCircleButtonCmp extends StatefulWidget {
+class ButtonCircleCmp extends StatefulWidget {
   final ButtonWrap btn;
   final Function? onSelect;
-  TextInCircleButtonCmp({required this.btn, this.onSelect});
+  ButtonCircleCmp({required this.btn, this.onSelect});
   @override
-  _TextInCircleButtonCmpState createState() => _TextInCircleButtonCmpState();
+  _ButtonCircleCmpState createState() => _ButtonCircleCmpState();
 }
 
-class _TextInCircleButtonCmpState extends State<TextInCircleButtonCmp> {
+class _ButtonCircleCmpState extends State<ButtonCircleCmp> {
   final Color defaultColor = Colors.grey;
   final Color selectedColor = Colors.orangeAccent;
 
@@ -38,6 +38,7 @@ class _TextInCircleButtonCmpState extends State<TextInCircleButtonCmp> {
     return InkWell(
       onTap: _onSelect,
       onHover: _onHover,
+      splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: TextInCircleCmp(

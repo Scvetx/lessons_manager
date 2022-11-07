@@ -27,17 +27,17 @@ abstract class LayoutActionStudentsListEvent extends StudentsListEvent {}
 class NewRecordStudentsListEvent extends LayoutActionStudentsListEvent {}
 
 // --- actions events: list item ---
-abstract class ItemStudentsListEvent extends StudentsListEvent {
+abstract class ItemActionStudentsListEvent extends StudentsListEvent {
   final Student student;
-  ItemStudentsListEvent({required this.student});
+  ItemActionStudentsListEvent({required this.student});
 }
 
-class ViewRecordStudentsListEvent extends ItemStudentsListEvent {
+class ViewRecordStudentsListEvent extends ItemActionStudentsListEvent {
   ViewRecordStudentsListEvent({required Student student})
       : super(student: student);
 }
 
-class EditRecordStudentsListEvent extends ItemStudentsListEvent {
+class EditRecordStudentsListEvent extends ItemActionStudentsListEvent {
   EditRecordStudentsListEvent({required Student student})
       : super(student: student);
 }

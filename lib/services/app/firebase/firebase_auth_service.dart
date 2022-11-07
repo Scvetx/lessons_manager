@@ -62,8 +62,8 @@ class FirebaseAuthService {
   }
 
   // create a new user without sighning in right after the creation
-  static Future<User?> createUserWithoutSigningIn(String email) async {
-    String password = FirebaseAuthService.generatePassword();
+  static Future<User?> createUserWithoutSigningIn(
+      String email, String password) async {
     FirebaseApp app = await Firebase.initializeApp(
         name: 'CreateStudent', options: Firebase.app().options);
     UserCredential newUserCred = await FirebaseAuth.instanceFor(app: app)

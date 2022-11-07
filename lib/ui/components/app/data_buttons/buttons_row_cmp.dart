@@ -55,7 +55,9 @@ class _ButtonsRowCmpState extends State<ButtonsRowCmp> {
                     child: Text(widget.label!),
                   )),
         for (ButtonWrap btn in widget.buttons)
-          TextInCircleButtonCmp(btn: btn, onSelect: handleSelect)
+          Padding(
+              padding: const EdgeInsets.only(bottom: 7),
+              child: ButtonCircleCmp(btn: btn, onSelect: handleSelect)),
       ]),
     );
   }

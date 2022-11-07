@@ -35,16 +35,16 @@ class LessonFormLayout extends StatelessWidget {
           label: '${Lesson.fLanguageLevelLabel}: ',
           isSelected: (val) => formWrap.lesson.languageLevel.value == val,
           onSelect: (ButtonWrap btn) {
-            formWrap.lesson.languageLevel.value = btn.key;
+            formWrap.lesson.languageLevel.value = btn.selected ? btn.key : '';
           },
         ),
-        const SizedBox(height: spaceBetweenLinesLarge),
+        const SizedBox(height: spaceBetweenLines),
         CoursesButtonsRowCmp(
           multipleSelect: false,
           isSelected: (String courseId) => formWrap.lesson.courseId == courseId,
           onSelect: (ButtonWrap btn) {
-            formWrap.lesson.courseId = btn.key;
-            formWrap.lesson.course = btn.data as Course;
+            formWrap.lesson.courseId = btn.selected ? btn.key : '';
+            formWrap.lesson.course = btn.selected ? btn.data as Course : null;
           },
         ),
       ])),

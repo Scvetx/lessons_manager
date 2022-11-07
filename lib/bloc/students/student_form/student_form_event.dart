@@ -20,6 +20,11 @@ class SavingStudentFormEvent extends StudentFormEvent {
       : super(formWrap: formWrap);
 }
 
+class NewStudentPopupStudentFormEvent extends StudentFormEvent {
+  NewStudentPopupStudentFormEvent({required StudentFormWrap formWrap})
+      : super(formWrap: formWrap);
+}
+
 class ErrorStudentFormEvent extends StudentFormEvent {
   final String errMsg;
   ErrorStudentFormEvent(

@@ -22,8 +22,11 @@ class StudentFormWrap {
     _getFormTextFields();
   }
   void prepareToSave() {
-    _setFormTextFields();
     student.validateFields();
+    if (isNew) {
+      student.firstLoginPassword = FirebaseAuthService.generatePassword();
+    }
+    _setFormTextFields();
   }
 
   // get current fields values
