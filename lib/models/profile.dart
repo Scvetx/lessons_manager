@@ -13,12 +13,16 @@ class Profile extends CObject {
 
   static const int fNameLength = 100;
   static const int fEmailLength = 300;
+  static const int fEmailMaxLines = 1;
 
 // ----- FIELDS -----
   String photoURL = ''; // user's photo URL
 
-  TextCField email = TextCField(
-      label: fEmailLabel, value: '', maxLength: fEmailLength); // user's email
+  final TextCField email = TextCField(
+      label: fEmailLabel,
+      value: '',
+      maxLength: fEmailLength,
+      maxNumberOfLines: fEmailMaxLines); // user's email
 
 // ----- CONSTRUCTORS -----
   // Profile obj with empty fields: used when creating a new User record
@@ -66,7 +70,7 @@ class Profile extends CObject {
   @override
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
     super.setFormTextFields(fieldsMap);
-    email = fieldsMap['email']!;
+    email.value = fieldsMap['email']!.value;
   }
 
 // ----- VALIDATE FIELDS METHODS -----
