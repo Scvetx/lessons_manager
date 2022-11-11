@@ -7,10 +7,9 @@ import 'package:workbook/services/app/firebase/query_filter.dart';
 import 'package:workbook/services/students/student_provider.dart';
 import 'package:workbook/services/courses_attendees/course_attendee_repository.dart';
 
-import 'package:workbook/models/cobject.dart';
+import 'package:workbook/models/dbobject.dart';
 import 'package:workbook/models/student.dart';
 import 'package:workbook/models/course_attendee.dart';
-import 'package:workbook/constants/labels.dart';
 
 class StudentRepository {
   final StudentProvider _provider = StudentProvider();
@@ -22,8 +21,9 @@ class StudentRepository {
     // create user
     User? newUser = await FirebaseAuthService.createUserWithoutSigningIn(
         newStudent.email.value, newStudent.firstLoginPassword!);
-    //create student
+
     if (newUser != null) {
+      // create student
       newStudent.userId = newUser.uid;
       String studentId = await _provider.createRecord(newStudent.toMap());
       // create related courses attendees
@@ -39,13 +39,19 @@ class StudentRepository {
 
   // update 1 student
   Future updateRecord(Student newStudent, Student oldStudent) async {
-    // update/create/delete courses attendees
+    // create/delete courses attendees
     await _refreshRelatedCourses(newStudent, oldStudent);
     // update student
     await _provider.updateRecord(newStudent.id!, newStudent.toMap());
   }
 
-  // clear teacherId field on the student
+  // set isVerified = true to
+  Future verifyStudent(Student student) async {
+    Student newStudent = student.copy(isVerified: true);
+    await updateRecord(newStudent, student);
+  }
+
+  // set isActive to false to remove the student from ui lists in the app
   Future deactivateStudent(Student student) async {
     // we don't delete student: only deactivate it
     Student newStudent = student.copy(isActive: false);
@@ -61,7 +67,7 @@ class StudentRepository {
     }
   }
 
-  // if student's courses list was changed => update/create/delete courses attendees
+  // if student's courses list was changed => create/delete courses attendees
   Future _refreshRelatedCourses(Student newStudent, Student oldStudent) async {
     // if list of student's courses is changed  => create/delete courses attendees
     if (newStudent.courses != oldStudent.courses) {
@@ -103,14 +109,22 @@ class StudentRepository {
 
 // ----- QUERY: STUDENTS -----
   // query all active students related to the teacher
-  Future<List<Student>> queryAllActiveStudents() async =>
-      await _provider.queryStudents(filtersAllActiveStudents);
+  Future<List<Student>> queryAllActiveStudents() async {
+    if (FirebaseAuthService.isTeacher) {
+      List<QueryFilter> filters = [
+        TeacherIdQueryFilter(FirebaseAuthService.teacherId!),
+        IsActiveQueryFilter(true)
+      ];
+      return await _provider.queryStudents(filters);
+    }
+    return [];
+  }
 
-  // get filters: 1) related to the teacher 2) isActive = true
-  List<QueryFilter> get filtersAllActiveStudents {
-    String? teacherId = FirebaseAuthService.getUserIdIfLoggedIn();
-    if (teacherId == null) throw Exception(errNotLoggedIn);
-    return [IsActiveQueryFilter(true), TeacherIdQueryFilter(teacherId)];
+  // query student related to the userId
+  Future<Student?> queryStudentByUserId(String userId) async {
+    List<QueryFilter> filters = [UserIdQueryFilter(userId)];
+    List<Student> students = await _provider.queryStudents(filters);
+    return students.isNotEmpty ? students[0] : null;
   }
 
 // ----- QUERY: RELATED RECORDS -----
@@ -120,9 +134,9 @@ class StudentRepository {
 
 // ----- FILTER RECORDS -----
   List<Student> filterStudentsByIds(List<Student> students, Set<String> ids) {
-    List<CObject> cObjects = _provider.filterCObjectsByIds(students, ids);
+    List<DBObject> dbObjects = _provider.filterDBObjectsByIds(students, ids);
     List<Student> filteredStudents =
-        cObjects.map((cObj) => cObj as Student).toList();
+        dbObjects.map((cObj) => cObj as Student).toList();
     return filteredStudents;
   }
 }

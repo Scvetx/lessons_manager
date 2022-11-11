@@ -12,7 +12,7 @@ class StudentFormWrap {
     if (student == null) {
       // user is creating record
       isNew = true;
-      String teacherId = FirebaseAuthService.getUserIdIfLoggedIn() ?? '';
+      String teacherId = FirebaseAuthService.teacherId ?? '';
       this.student = Student.create(teacherId: teacherId);
     } else {
       // user is editing record

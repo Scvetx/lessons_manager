@@ -3,8 +3,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:workbook/models/cfield.dart';
-import 'package:workbook/ui/components/app/text/text_input_cmp.dart';
 import 'package:workbook/constants/styles/app_style.dart';
+import 'package:workbook/ui/components/app/text/text_input_cmp.dart';
 
 class FormCmp extends StatefulWidget {
   Map<String, TextCField> fieldsMap;
@@ -15,6 +15,7 @@ class FormCmp extends StatefulWidget {
 }
 
 class _Form_cmpState extends State<FormCmp> {
+  @override
   Widget build(BuildContext context) {
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,

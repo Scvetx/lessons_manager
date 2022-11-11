@@ -18,15 +18,17 @@ const labelCancel = 'Cancel';
 // auth
 const labelLogIn = 'Log In';
 const labelLogOut = 'Log Out';
-const labelRegistration = 'Registration';
+const labelRegistration = 'New Teacher Account';
 const labelCreateAccount = 'Create an Account';
+const labelInputNameHintText = 'Enter your name';
 const labelInputEmailHintText = 'Enter your email';
 const labelInputPasswordHintText = 'Enter your password';
-const labelRegisterButton = 'Don\'t have an account? Create now >';
+const labelInputNewPasswordHintText = 'Enter new password';
+const labelEnterNewPassword = 'Enter your new password below:';
+const labelNewPasswordDescription =
+    'At the time of your first login change the temporary password provided by your teacher:';
+const labelRegisterButton = 'Sign Up as a Teacher >';
 const labelLoginButton = 'Log in >';
-
-// profile
-const labelNoName = 'No Name';
 
 // new user
 const labelNewStudentPopupTitle = 'Student\'s Temporary Password';

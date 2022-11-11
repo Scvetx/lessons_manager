@@ -31,13 +31,14 @@ class Lesson extends CObject {
 
 // ----- CONSTRUCTORS -----
   // creates a new Lesson with empty fields: used on lesson_form_screen
-  Lesson({required this.teacherId}) : super.initEmpty(nameLength: fNameLength);
+  Lesson.create({required this.teacherId})
+      : super.create(nameLength: fNameLength);
 
   // parse db map to Lesson obj
   Lesson.fromMap(Map<String, dynamic> objMap)
       : teacherId = objMap['teacherId'] ?? '',
         courseId = objMap['courseId'] ?? '',
-        super.fromValues(name: objMap['name'] ?? '', nameLength: fNameLength) {
+        super.fromMap(objMap, nameLength: fNameLength) {
     description.value = objMap['description'] ?? '';
     languageLevel.value = objMap['languageLevel'] ?? '';
   }
@@ -59,7 +60,6 @@ class Lesson extends CObject {
 // ----- COPY OBJECT METHOD -----
   // returns current Lesson obj copy as a new Instance of Lesson
   // used while updating Lesson to store the old value
-  @override
   Lesson copy({String? name}) {
     Map<String, dynamic> objMap = toMap();
     Lesson copy = Lesson.fromMap(objMap);
@@ -83,6 +83,6 @@ class Lesson extends CObject {
   @override
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
     super.setFormTextFields(fieldsMap);
-    description.value = fieldsMap['description']!.value;
+    description.value = fieldsMap['description']!.formattedValue;
   }
 }

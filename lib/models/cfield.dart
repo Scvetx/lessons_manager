@@ -12,6 +12,8 @@ class TextCField extends CField {
   int? maxLength;
   int? maxNumberOfLines;
 
+  String get formattedValue => value.trimLeft().trimRight();
+
   TextCField(
       {required String label,
       required this.value,

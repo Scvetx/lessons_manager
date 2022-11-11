@@ -1,7 +1,7 @@
 import 'package:workbook/extensions/string_ext.dart';
-
 import 'package:workbook/constants/labels.dart';
 import 'cfield.dart';
+import 'dbobject.dart';
 
 class ValidationException implements Exception {
   String msg;
@@ -10,32 +10,35 @@ class ValidationException implements Exception {
   String toString() => msg;
 }
 
-abstract class CObject {
+abstract class CObject extends DBObject {
 // ----- STATIC -----
   static const String fNameLabel = 'Name';
 
   static const int fNameMaxLines = 1;
 
-// ----- FIELDS -----
-  String? id; // object id in db
   final TextCField name = TextCField(
       label: CObject.fNameLabel,
       value: '',
       maxNumberOfLines: fNameMaxLines); // object name in db
 
-// ----- CONSTRUCTORS -----
-  CObject();
-  CObject.initEmpty({int? nameLength}) {
+  CObject.create({int? nameLength}) : super.create() {
     name.maxLength = nameLength;
   }
-  CObject.fromValues({this.id, required String name, int? nameLength}) {
-    this.name.value = name;
-    this.name.maxLength = nameLength;
+
+  CObject.fromMap(Map<String, dynamic> objMap, {int? nameLength})
+      : super.fromMap(objMap) {
+    name.value = objMap['name'] ?? '';
+    name.maxLength = nameLength;
   }
 
 // ----- DB METHODS -----
   // convert obj to database map
-  Map<String, dynamic> toMap() => {'name': name.value};
+  @override
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = super.toMap();
+    map.addAll({'name': name.value});
+    return map;
+  }
 
 // ----- FORM METHODS -----
   // a map of Text fields for Text Inputs on forms
@@ -43,12 +46,8 @@ abstract class CObject {
 
   // set values entered on the form to the cObj fields
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
-    name.value = fieldsMap['name']!.value;
+    name.value = fieldsMap['name']!.formattedValue;
   }
-
-// ----- COPY OBJECT METHOD -----
-  // copy current cObj as a new Instance of CObject
-  void copy() {}
 
 // ----- VALIDATE FIELDS METHOD -----
   // validate entered CObject fields

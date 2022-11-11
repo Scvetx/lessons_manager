@@ -49,6 +49,13 @@ class TeacherIdQueryFilter extends StringQueryFilter {
             operator: StringQueryOperator.equal);
 }
 
+class UserIdQueryFilter extends StringQueryFilter {
+  static const String fUserId = 'userId'; // current teacher user id
+  UserIdQueryFilter(String value)
+      : super(
+            value: value, field: fUserId, operator: StringQueryOperator.equal);
+}
+
 class StudentIdQueryFilter extends StringQueryFilter {
   static const String fStudentId = 'studentId';
   StudentIdQueryFilter(String value)

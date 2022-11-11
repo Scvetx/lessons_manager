@@ -24,19 +24,68 @@ class ProfileFormScreen extends StatefulWidget {
 }
 
 class _ProfileFormScreenState extends State<ProfileFormScreen> {
-  Profile? _curProfileVal;
-  Profile get _curProfile {
-    _curProfileVal ??= Profile.fromUser(FirebaseAuthService.user!);
-    return _curProfileVal!;
-  }
-
+  dynamic _initProfile;
+  dynamic _profile;
   String? _password;
   bool _nameChanged = false;
   bool _emailChanged = false;
 
+  void initProfile() {
+    _initProfile = _initProfile ??
+        (FirebaseAuthService.isTeacher
+            ? FirebaseAuthService.teacher
+            : FirebaseAuthService.student);
+    _profile = _profile ?? _initProfile.copy();
+  }
+
+  void onNameChanged(String value) {
+    setState(() {
+      _profile.name.value = value;
+      _nameChanged = _profile.name.value != _initProfile!.name.value;
+    });
+  }
+
+  void onEmailChanged(String value) {
+    setState(() {
+      _profile.email.value = value;
+      _emailChanged = _profile.email.value != _initProfile!.email.value;
+    });
+  }
+
+  void onPasswordChanged(String value) {
+    _password = value;
+  }
+
+  void saveProfile() async {
+    setState(() => context.loaderOverlay.show());
+    try {
+      if (_nameChanged) {
+        _profile.validateName();
+        await FirebaseAuthService.updateUserName(_profile.name.value);
+        await FirebaseAuthService.updateUserProfile(_profile, _initProfile);
+      }
+      if (_emailChanged) {
+        _profile.validateEmailEdit(_password);
+        await FirebaseAuthService.reauthenticateUser(_password!);
+        await FirebaseAuthService.updateUserEmail(_profile.email.value);
+        await FirebaseAuthService.updateUserProfile(_profile, _initProfile);
+      }
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+          context, ProfileViewScreen.id, (Route<dynamic> route) => false);
+    } on Exception catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBarCmp(text: e.toString()));
+    } finally {
+      setState(() => context.loaderOverlay.hide());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!FirebaseAuthService.loggedIn) return ErrLoggedOutCmp();
+
+    initProfile();
 
     return LoaderOverlay(
       child: Scaffold(
@@ -51,29 +100,22 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
               children: [
                 TextInputCmp(
                     placeholder: CObject.fNameLabel,
-                    curValue: _curProfile.name.value,
-                    length: _curProfile.name.maxLength,
-                    maxNumberOfLines: _curProfile.name.maxNumberOfLines,
+                    curValue: _profile.name.value,
+                    length: _profile.name.maxLength,
+                    maxNumberOfLines: _profile.name.maxNumberOfLines,
                     onChange: (value) {
-                      setState(() {
-                        _curProfile.name.value = value;
-                        _nameChanged = _curProfile.name.value !=
-                            FirebaseAuthService.user!.displayName;
-                      });
+                      onNameChanged(value);
                     }),
                 const SizedBox(height: spaceBetweenLinesSmall),
                 TextInputCmp(
-                    placeholder: Profile.fEmailLabel,
-                    curValue: _curProfile.email.value,
-                    length: _curProfile.email.maxLength,
-                    maxNumberOfLines: _curProfile.email.maxNumberOfLines,
-                    onChange: (value) {
-                      setState(() {
-                        _curProfile.email.value = value;
-                        _emailChanged = _curProfile.email.value !=
-                            FirebaseAuthService.user!.email;
-                      });
-                    }),
+                  placeholder: Profile.fEmailLabel,
+                  curValue: _profile.email.value,
+                  length: _profile.email.maxLength,
+                  maxNumberOfLines: _profile.email.maxNumberOfLines,
+                  onChange: (value) {
+                    onEmailChanged(value);
+                  },
+                ),
                 const SizedBox(height: spaceBetweenLinesSmall),
                 Visibility(
                   visible: _emailChanged,
@@ -82,7 +124,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                     child: TextField(
                       obscureText: true,
                       onChanged: (value) {
-                        _password = value;
+                        onPasswordChanged(value);
                       },
                       decoration: inputTextDecoration.copyWith(
                         hintText: labelInputPasswordHintText,
@@ -94,30 +136,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
         ])),
         bottomNavigationBar: BottomButtonCmp(
           title: labelSave,
-          onPressed: () async {
-            setState(() => context.loaderOverlay.show());
-            try {
-              if (_nameChanged) {
-                _curProfile.validateName();
-                await FirebaseAuthService.updateUserName(
-                    _curProfile.name.value);
-              }
-              if (_emailChanged) {
-                _curProfile.validateEmailEdit(_password);
-                await FirebaseAuthService.reauthenticateUser(_password!);
-                await FirebaseAuthService.updateUserEmail(
-                    _curProfile.email.value);
-              }
-              if (!mounted) return;
-              Navigator.pushNamedAndRemoveUntil(context, ProfileViewScreen.id,
-                  (Route<dynamic> route) => false);
-            } on Exception catch (e) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBarCmp(text: e.toString()));
-            } finally {
-              setState(() => context.loaderOverlay.hide());
-            }
-          },
+          onPressed: saveProfile,
         ),
       ),
     );

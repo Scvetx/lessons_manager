@@ -2,7 +2,7 @@
 */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:workbook/models/cobject.dart';
+import 'package:workbook/models/dbobject.dart';
 import 'query_filter.dart';
 
 class FirebaseCollection {
@@ -35,23 +35,23 @@ class FirebaseCollection {
 
 // ----- BULK DML -----
   // bulk create
-  Future createRecords(List<CObject> cObjects) async {
-    if (cObjects.isEmpty) return;
+  Future createRecords(List<DBObject> dbObjects) async {
+    if (dbObjects.isEmpty) return;
     WriteBatch batch = db.batch();
-    for (CObject cObj in cObjects) {
+    for (DBObject dbObj in dbObjects) {
       var docRef = collection.doc();
-      batch.set(docRef, cObj.toMap());
+      batch.set(docRef, dbObj.toMap());
     }
     await batch.commit();
   }
 
   // bulk update
-  Future updateRecords(List<CObject> cObjects) async {
-    if (cObjects.isEmpty) return;
+  Future updateRecords(List<DBObject> dbObjects) async {
+    if (dbObjects.isEmpty) return;
     WriteBatch batch = db.batch();
-    for (CObject cObj in cObjects) {
-      DocumentReference docRef = collection.doc(cObj.id);
-      batch.update(docRef, cObj.toMap());
+    for (DBObject dbObj in dbObjects) {
+      DocumentReference docRef = collection.doc(dbObj.id);
+      batch.update(docRef, dbObj.toMap());
     }
     await batch.commit();
   }
@@ -100,14 +100,14 @@ class FirebaseCollection {
   }
 
 // ----- FILTER RECORDS -----
-  // filters CObject list by ids
-  List<CObject> filterCObjectsByIds(
-      List<CObject> cObjectsToFilter, Set<String> ids) {
+  // filters DBObject list by ids
+  List<DBObject> filterDBObjectsByIds(
+      List<DBObject> dbObjectsToFilter, Set<String> ids) {
     if (ids.isEmpty) return [];
-    List<CObject> filteredCObjects = [
-      for (var v in cObjectsToFilter)
+    List<DBObject> filteredDBObjects = [
+      for (var v in dbObjectsToFilter)
         if (ids.contains(v.id)) v
     ];
-    return filteredCObjects;
+    return filteredDBObjects;
   }
 }

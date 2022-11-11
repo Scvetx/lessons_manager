@@ -1,3 +1,6 @@
+/* Custom Widget - new student: popup title
+*/
+
 import 'package:flutter/material.dart';
 import 'package:workbook/constants/styles/app_style.dart';
 import 'package:workbook/constants/labels.dart';

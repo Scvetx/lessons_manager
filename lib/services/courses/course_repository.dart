@@ -6,8 +6,7 @@ import 'package:workbook/services/app/firebase/query_filter.dart';
 import 'package:workbook/services/courses/course_provider.dart';
 import 'package:workbook/services/courses_attendees/course_attendee_repository.dart';
 
-import 'package:workbook/constants/labels.dart';
-import 'package:workbook/models/cobject.dart';
+import 'package:workbook/models/dbobject.dart';
 import 'package:workbook/models/course.dart';
 import 'package:workbook/models/course_attendee.dart';
 
@@ -80,16 +79,21 @@ class CourseRepository {
 
 // ----- QUERY: COURSES -----
   // query all courses related to the current teacher
-  Future<List<Course>> queryAllCourses() async =>
-      await _provider.queryCourses(filtersAllActiveCourses);
+  Future<List<Course>> queryAllCourses() async => FirebaseAuthService.isTeacher
+      ? await _provider
+          .queryCourses([TeacherIdQueryFilter(FirebaseAuthService.teacherId!)])
+      : await queryStudentCourses(FirebaseAuthService.studentId!);
 
-  // get filters: 1) related to the teacher 2) isActive = true
-  List<QueryFilter> get filtersAllActiveCourses {
-    String? teacherId = FirebaseAuthService.getUserIdIfLoggedIn();
-    if (teacherId == null) throw Exception(errNotLoggedIn);
-    return [TeacherIdQueryFilter(teacherId)];
+  // query courses by student id
+  Future<List<Course>> queryStudentCourses(String studentId) async {
+    List<CourseAttendee> attendees =
+        await _attendeeRepo.queryCoursesAttendeesByStudentId(studentId);
+    Set<String> coursesIds = {for (var v in attendees) v.courseId};
+    List<Course> allCourses = await _provider.queryCourses([]);
+    return filterCoursesByIds(allCourses, coursesIds);
   }
 
+  // query course by its id
   Future<Course> queryCourseById(String id) async =>
       await _provider.queryCourseById(id);
 
@@ -100,7 +104,7 @@ class CourseRepository {
 
 // ----- FILTER RECORDS -----
   List<Course> filterCoursesByIds(List<Course> courses, Set<String> ids) {
-    List<CObject> cObjects = _provider.filterCObjectsByIds(courses, ids);
+    List<DBObject> cObjects = _provider.filterDBObjectsByIds(courses, ids);
     List<Course> filteredCourses =
         cObjects.map((cObj) => cObj as Course).toList();
     return filteredCourses;

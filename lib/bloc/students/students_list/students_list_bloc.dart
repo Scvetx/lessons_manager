@@ -35,7 +35,8 @@ class StudentsListBloc extends Bloc<StudentsListEvent, StudentsListState> {
       List<Student> students = studentsIds == null
           ? allStudents
           : _repository.filterStudentsByIds(allStudents, studentsIds);
-      StudentsListWrap listWrap = StudentsListWrap(students: students);
+      StudentsListWrap listWrap = StudentsListWrap(
+          students: students, isRelatedList: studentsIds != null);
       add(ReadyStudentsListEvent(listWrap: listWrap));
     } on Exception catch (e) {
       toError(e.toString());

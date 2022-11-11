@@ -3,6 +3,7 @@ import 'package:workbook/services/app/navigation/navigation_service.dart';
 import 'package:workbook/services/students/student_repository.dart';
 
 import 'package:workbook/models/student.dart';
+import 'package:workbook/ui/screens/students/student_form_screen.dart';
 import 'package:workbook/ui/screens/students/students_screen.dart';
 import 'student_view_event.dart';
 import 'student_view_state.dart';
@@ -22,6 +23,7 @@ class StudentViewBloc extends Bloc<StudentViewEvent, StudentViewState> {
   }
 
 // - ADD EVENTS -
+// --- state events: view layout ---
   void init(Student student) {
     try {
       StudentViewWrap viewWrap = StudentViewWrap(student: student);
@@ -46,6 +48,11 @@ class StudentViewBloc extends Bloc<StudentViewEvent, StudentViewState> {
 
   void toError(String errMsg) {
     add(ErrorStudentViewEvent(viewWrap: state.viewWrap, errMsg: errMsg));
+  }
+
+// --- actions events ---
+  void toEditRecord() {
+    NavigationService.pushNamed(StudentFormScreen.id, state.viewWrap!.student);
   }
 
 // - EVENT HANDLERS -

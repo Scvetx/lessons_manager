@@ -1,11 +1,7 @@
-/* Custom Widget - a button with rounded borders and white background
+/* Custom Widget - a clickable section button on the screen
 */
 
 import 'package:flutter/material.dart';
-import 'package:workbook/constants/styles/app_style.dart';
-import 'package:workbook/ui/components/app/buttons/rounded_button_cmp.dart';
-
-import 'link_text.dart';
 
 class SectionTitleButtonCmp extends StatelessWidget {
   final String title;
@@ -20,14 +16,14 @@ class SectionTitleButtonCmp extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          // gradient: LinearGradient(
-          //   colors: [
-          //     Colors.grey.withOpacity(0.5),
-          //     Colors.grey.withOpacity(0.3),
-          //   ],
-          //   begin: Alignment.centerLeft,
-          //   end: Alignment.centerRight,
-          // ),
+          gradient: LinearGradient(
+            colors: [
+              Colors.grey.withOpacity(0.5),
+              Colors.grey.withOpacity(0.3),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
           color: Colors.grey.withOpacity(0.05),
           border: Border.all(width: 1, color: Colors.grey.withOpacity(0.2)),
           borderRadius: const BorderRadius.all(
@@ -38,7 +34,7 @@ class SectionTitleButtonCmp extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14,
               letterSpacing: 1.5,

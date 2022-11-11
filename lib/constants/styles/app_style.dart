@@ -34,12 +34,18 @@ const EdgeInsets defaultButtonPadding =
 const double roundedButtonRadius = 50;
 
 // -- text --
-const greyTextColor = Color(0xFF929191);
+
 const TextStyle whiteText = TextStyle(
   color: Colors.white,
 );
+const greyTextColor = Color(0xFF929191);
 
 const TextStyle mBlackText = TextStyle(fontSize: 14, color: Colors.black);
+const TextStyle mBlackLabel =
+    TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold);
+
+const TextStyle mBlackLongText =
+    TextStyle(fontSize: 14, color: Colors.black, height: 1.5);
 
 const TextStyle mGreyText = TextStyle(fontSize: 14, color: greyTextColor);
 const TextStyle mGreyLabel =
@@ -49,7 +55,7 @@ const TextStyle sGreyText = TextStyle(fontSize: 12, color: greyTextColor);
 
 // -- input text --
 const inputTextDecoration = InputDecoration(
-  contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(18.0)),
   ),

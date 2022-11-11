@@ -3,6 +3,7 @@ import 'package:workbook/services/app/navigation/navigation_service.dart';
 import 'package:workbook/services/lessons/lesson_repository.dart';
 
 import 'package:workbook/models/lesson.dart';
+import 'package:workbook/ui/screens/lessons/lesson_form_screen.dart';
 import 'package:workbook/ui/screens/lessons/lessons_screen.dart';
 import 'lesson_view_event.dart';
 import 'lesson_view_state.dart';
@@ -21,6 +22,7 @@ class LessonViewBloc extends Bloc<LessonViewEvent, LessonViewState> {
   }
 
 // - ADD EVENTS -
+// --- state events: view layout ---
   void init(Lesson lesson) {
     try {
       LessonViewWrap viewWrap = LessonViewWrap(lesson: lesson);
@@ -45,6 +47,11 @@ class LessonViewBloc extends Bloc<LessonViewEvent, LessonViewState> {
 
   void toError(String errMsg) {
     add(ErrorLessonViewEvent(viewWrap: state.viewWrap, errMsg: errMsg));
+  }
+
+// --- actions events ---
+  void toEditRecord() {
+    NavigationService.pushNamed(LessonFormScreen.id, state.viewWrap!.lesson);
   }
 
 // - EVENT HANDLERS -

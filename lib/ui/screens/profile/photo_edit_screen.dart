@@ -61,6 +61,16 @@ class _PhotoEditScreenState extends State<PhotoEditScreen> {
     }
   }
 
+  void changePic() async {
+    try {
+      await pickImage();
+      if (_photoFile != null) await uploadPhoto();
+    } on Exception catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBarCmp(text: e.toString()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!FirebaseAuthService.loggedIn) return ErrLoggedOutCmp();
@@ -89,16 +99,9 @@ class _PhotoEditScreenState extends State<PhotoEditScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.5,
                 child: OutlinedRoundedButtonCmp(
-                    title: '$labelChange ${Profile.fPhotoLabel}',
-                    onPressed: () async {
-                      try {
-                        await pickImage();
-                        if (_photoFile != null) await uploadPhoto();
-                      } on Exception catch (e) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBarCmp(text: e.toString()));
-                      }
-                    }),
+                  title: '$labelChange ${Profile.fPhotoLabel}',
+                  onPressed: changePic,
+                ),
               ),
             ]),
           ),

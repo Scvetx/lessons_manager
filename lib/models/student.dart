@@ -1,5 +1,3 @@
-import 'package:workbook/models/language_level.dart';
-
 import 'cfield.dart';
 import 'cobject.dart';
 import 'profile.dart';
@@ -13,11 +11,12 @@ class Student extends Profile {
   static const String fGoalLabel = 'Goal';
 
 // ----- FIELDS -----
-  bool isActive = true; // if active then showed in the lists
   late String teacherId; // teacher user id (empty if teacher removed student)
   late String userId; // student's User id
-  String?
-      firstLoginPassword; // tmp password generated while adding a new student
+  bool isActive = true; // if active then showed in the lists
+  bool isVerified = false;
+
+  String? firstLoginPassword; // tmp password generated for first login
 
   final LanguageLevelField languageLevel = LanguageLevelField(
       label: fLanguageLevelLabel, value: ''); // language level set by a teacher
@@ -46,10 +45,12 @@ class Student extends Profile {
   Student.create({required this.teacherId}) : courses = [];
 
   // parse db map to Student obj
-  Student.fromMap(Map<String, dynamic> objMap) : super.fromMap(objMap) {
+  Student.fromMap(Map<String, dynamic> objMap)
+      : teacherId = objMap['teacherId'] ?? '',
+        userId = objMap['userId'] ?? '',
+        super.fromMap(objMap) {
     isActive = objMap['isActive'] ?? isActive;
-    teacherId = objMap['teacherId'] ?? '';
-    userId = objMap['userId'] ?? '';
+    isVerified = objMap['isVerified'] ?? isVerified;
     languageLevel.value = objMap['languageLevel'] ?? '';
     goal.value = objMap['goal'] ?? '';
   }
@@ -61,10 +62,11 @@ class Student extends Profile {
     Map<String, dynamic> map = super.toMap();
     map.addAll({
       'isActive': isActive,
+      'isVerified': isVerified,
       'teacherId': teacherId,
       'userId': userId,
       'languageLevel': languageLevel.value,
-      'goal': goal.value,
+      'goal': goal.value
     });
     return map;
   }
@@ -72,14 +74,14 @@ class Student extends Profile {
 // ----- COPY OBJECT METHOD -----
   // returns current Student obj copy as a new Instance of Student
   // used while updating Student to store the old value
-  @override
-  Student copy({String? name, bool? isActive}) {
+  Student copy({String? name, bool? isActive, bool? isVerified}) {
     Map<String, dynamic> objMap = toMap();
     Student copy = Student.fromMap(objMap);
     copy.id = id;
     copy.courses = courses == null ? null : List.from(courses!);
     copy.name.value = name ?? this.name.value;
     copy.isActive = isActive ?? this.isActive;
+    copy.isVerified = isVerified ?? this.isVerified;
     return copy;
   }
 
@@ -99,6 +101,12 @@ class Student extends Profile {
     }
   }
 
+// ----- FORM METHODS -----
+  // get text fields for student's form if student has verified account then the form is empty
+  @override
+  Map<String, TextCField> getFormTextFieldsMap() =>
+      isVerified ? {} : super.getFormTextFieldsMap();
+
 // ----- RELATED RECORDS METHODS -----
   // check if the student attends a course
   bool containsCourse(String courseId) => coursesIds.contains(courseId);
@@ -106,7 +114,8 @@ class Student extends Profile {
   // add course to the student
   void addCourse(String courseId) {
     courses ??= [];
-    courses!.add(CourseAttendee(studentId: id ?? '', courseId: courseId));
+    courses!
+        .add(CourseAttendee.create(studentId: id ?? '', courseId: courseId));
     _initCoursesIds();
   }
 

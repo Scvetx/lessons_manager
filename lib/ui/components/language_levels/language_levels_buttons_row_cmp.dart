@@ -19,7 +19,7 @@ class LanguageLevelsButtonsRowCmp extends StatelessWidget {
           ButtonWrap(
               key: langLevel.value,
               label: langLevel.value,
-              selected: isSelected(langLevel),
+              selected: isSelected(langLevel.value),
               onSelect: onSelect)
       ];
 

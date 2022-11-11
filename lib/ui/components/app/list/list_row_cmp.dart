@@ -10,6 +10,7 @@ class ListRowCmp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: MediaQuery.of(context).size.width, child: row);
+    return SizedBox(
+        height: 45, width: MediaQuery.of(context).size.width, child: row);
   }
 }
