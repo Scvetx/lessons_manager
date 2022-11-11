@@ -35,7 +35,8 @@ class LessonsListBloc extends Bloc<LessonsListEvent, LessonsListState> {
       List<Lesson> lessons = lessonsIds == null
           ? allLessons
           : _repository.filterLessonsByIds(allLessons, lessonsIds!);
-      LessonsListWrap listWrap = LessonsListWrap(lessons: lessons);
+      LessonsListWrap listWrap =
+          LessonsListWrap(lessons: lessons, relatedList: lessonsIds != null);
       add(ReadyLessonsListEvent(listWrap: listWrap));
     } on Exception catch (e) {
       toError(e.toString());

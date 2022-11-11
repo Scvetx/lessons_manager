@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:workbook/services/app/firebase/firebase_auth_service.dart';
 import 'package:workbook/bloc/lessons/lesson_view/lesson_view_bloc.dart';
 import 'package:workbook/bloc/lessons/lesson_view/lesson_view_wrap.dart';
 import 'package:workbook/models/lesson.dart';
@@ -13,6 +14,7 @@ import 'package:workbook/constants/styles/object_view_style.dart';
 import 'package:workbook/ui/components/app/containers/screen_container_cmp.dart';
 import 'package:workbook/ui/components/app/buttons/bottom_button_cmp.dart';
 import 'package:workbook/ui/components/app/text/description_cmp.dart';
+import 'package:workbook/ui/components/app/buttons/edit_button_cmp.dart';
 
 class LessonViewLayout extends StatelessWidget {
   @override
@@ -27,7 +29,20 @@ class LessonViewLayout extends StatelessWidget {
       ),
       body: ScreenContainerCmp(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(viewWrap.lesson.name.value, style: ovTitleMediumStyle),
+          Row(children: [
+            Expanded(
+                child: Text(viewWrap.lesson.name.value,
+                    style: ovTitleMediumStyle)),
+            Visibility(
+              visible: FirebaseAuthService.isTeacher,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: EditButtonCmp(
+                  onPressed: () => bloc.toEditRecord(),
+                ),
+              ),
+            ),
+          ]),
           Visibility(
             visible: viewWrap.lesson.description.value.isNotEmpty,
             child: Column(children: [
@@ -53,10 +68,12 @@ class LessonViewLayout extends StatelessWidget {
           ),
         ]),
       ),
-      bottomNavigationBar: BottomButtonCmp(
-          title: '$labelDelete ${Lesson.label}',
-          color: Colors.redAccent,
-          onPressed: bloc.toDelete),
+      bottomNavigationBar: FirebaseAuthService.isTeacher
+          ? BottomButtonCmp(
+              title: '$labelDelete ${Lesson.label}',
+              color: Colors.redAccent,
+              onPressed: bloc.toDelete)
+          : null,
     );
   }
 }

@@ -53,12 +53,12 @@ class Course extends CObject {
   // creates a new Course with empty fields: used on course_form_screen
   Course.create({required this.teacherId})
       : courseAttendees = [],
-        super.initEmpty(nameLength: fNameLength);
+        super.create(nameLength: fNameLength);
 
   // parse db map to Course obj
   Course.fromMap(Map<String, dynamic> objMap)
       : teacherId = objMap['teacherId'],
-        super.fromValues(name: objMap['name'] ?? '', nameLength: fNameLength) {
+        super.fromMap(objMap, nameLength: fNameLength) {
     description.value = objMap['description'] ?? '';
   }
 
@@ -77,7 +77,6 @@ class Course extends CObject {
 // ----- COPY OBJECT METHOD -----
   // returns current Course obj copy as a new Instance of Course
   // used while updating Course to store the old value
-  @override
   Course copy({String? name}) {
     Map<String, dynamic> objMap = toMap();
     Course copy = Course.fromMap(objMap);
@@ -104,6 +103,6 @@ class Course extends CObject {
   @override
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
     super.setFormTextFields(fieldsMap);
-    description.value = fieldsMap['description']!.value;
+    description.value = fieldsMap['description']!.formattedValue;
   }
 }

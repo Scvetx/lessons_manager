@@ -41,7 +41,7 @@ class _TextInput_cmpState extends State<TextInputCmp> {
   }
 
   int _getMinNumberOfLinesByLength() {
-    int maxVal = 5;
+    int maxVal = 4;
     return widget.length == null
         // max number of lines if text length limit wasn't provided
         ? maxVal
@@ -73,8 +73,20 @@ class _TextInput_cmpState extends State<TextInputCmp> {
     });
   }
 
+  void onChanged(String val) {
+    setState(() {
+      if (val.length <= widget.length!) {
+        widget.curValue = val;
+        widget.onChange(widget.curValue);
+      } else {
+        val = widget.curValue;
+      }
+    });
+  }
+
   @override
   void initState() {
+    super.initState();
     _initController();
     _initLinesLimits();
   }

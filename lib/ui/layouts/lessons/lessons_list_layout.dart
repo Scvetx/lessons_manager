@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:workbook/services/app/firebase/firebase_auth_service.dart';
 import 'package:workbook/bloc/lessons/lessons_list/lessons_list_bloc.dart';
 import 'package:workbook/bloc/lessons/lessons_list/lessons_list_wrap.dart';
 import 'package:workbook/models/lesson.dart';
@@ -22,16 +23,17 @@ class LessonsListLayout extends StatelessWidget {
     if (listWrap == null) return Container();
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(Lesson.labelPlural),
-          actions: [
-            AppMenuCmp(),
-          ],
-        ),
-        body: ScreenContainerCmp(
-          child: LessonsListCmp(),
-        ),
-        bottomNavigationBar: BottomButtonCmp(
-            title: '$labelAdd ${Lesson.label}', onPressed: bloc.toNewRecord));
+      appBar: AppBar(
+        title: const Text(Lesson.labelPlural),
+        actions: listWrap.relatedList ? null : [AppMenuCmp()],
+      ),
+      body: ScreenContainerCmp(
+        child: LessonsListCmp(),
+      ),
+      bottomNavigationBar: FirebaseAuthService.isTeacher
+          ? BottomButtonCmp(
+              title: '$labelAdd ${Lesson.label}', onPressed: bloc.toNewRecord)
+          : null,
+    );
   }
 }

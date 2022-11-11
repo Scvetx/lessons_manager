@@ -51,6 +51,7 @@ class StudentFormBloc extends Bloc<StudentFormEvent, StudentFormState> {
 
   void toSave() {
     try {
+      if (!state.formWrap!.isNew) state.formWrap!.prepareToSave();
       add(SaveStudentFormEvent(formWrap: state.formWrap!));
     } on Exception catch (e) {
       toError(e.toString());

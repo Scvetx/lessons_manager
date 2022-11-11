@@ -27,8 +27,8 @@ class TextInCircleCmp extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(5),
         child: SizedBox(
-          height: text.length < 3 ? 14 : null,
-          width: text.length < 3 ? 14 : null,
+          height: text.length < 3 ? 16 : null,
+          width: text.length < 3 ? 16 : null,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -3,6 +3,7 @@ import 'package:workbook/services/app/navigation/navigation_service.dart';
 import 'package:workbook/services/courses/course_repository.dart';
 
 import 'package:workbook/models/course.dart';
+import 'package:workbook/ui/screens/courses/course_form_screen.dart';
 import 'package:workbook/ui/screens/courses/courses_screen.dart';
 import 'package:workbook/ui/screens/students/students_screen.dart';
 import 'package:workbook/ui/screens/lessons/lessons_screen.dart';
@@ -50,7 +51,11 @@ class CourseViewBloc extends Bloc<CourseViewEvent, CourseViewState> {
     add(ErrorCourseViewEvent(viewWrap: state.viewWrap, errMsg: errMsg));
   }
 
-// --- actions events: related records ---
+// --- actions events ---
+  void toEditRecord() {
+    NavigationService.pushNamed(CourseFormScreen.id, state.viewWrap!.course);
+  }
+
   void toRelatedStudents() {
     NavigationService.pushNamed(
         StudentsScreen.id, state.viewWrap!.course.studentsIds);

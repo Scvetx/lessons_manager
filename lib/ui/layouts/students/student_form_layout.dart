@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workbook/bloc/students/student_form/student_form_bloc.dart';
 import 'package:workbook/bloc/students/student_form/student_form_wrap.dart';
-
 import 'package:workbook/models/student.dart';
+
 import 'package:workbook/constants/labels.dart';
 import 'package:workbook/constants/styles/app_style.dart';
-
+import 'package:workbook/constants/styles/object_view_style.dart';
 import 'package:workbook/ui/components/app/containers/screen_container_cmp.dart';
 import 'package:workbook/ui/components/app/form/form_cmp.dart';
 import 'package:workbook/ui/components/app/buttons/bottom_button_cmp.dart';
-import 'package:workbook/ui/components/language_level/language_levels_buttons_row_cmp.dart';
+import 'package:workbook/ui/components/language_levels/language_levels_buttons_row_cmp.dart';
 import 'package:workbook/ui/components/courses/courses_buttons_row_cmp.dart';
 import 'package:workbook/ui/components/app/data_buttons/button_wrap.dart';
 
@@ -30,7 +30,14 @@ class StudentFormLayout extends StatelessWidget {
             Text('${formWrap.isNew ? labelNew : labelEdit} ${Student.label}'),
       ),
       body: ScreenContainerCmp(
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Visibility(
+            visible: formWrap.student.isVerified,
+            child: Column(children: [
+              Text(formWrap.student.name.value, style: ovTitleLargeStyle),
+              const SizedBox(height: spaceBetweenLinesLarge),
+            ]),
+          ),
           FormCmp(formWrap.fieldsMap),
           LanguageLevelsButtonsRowCmp(
             label: '${Student.fLanguageLevelLabel}: ',
@@ -40,7 +47,7 @@ class StudentFormLayout extends StatelessWidget {
                   btn.selected ? btn.key : '';
             },
           ),
-          const SizedBox(height: spaceBetweenLines),
+          const SizedBox(height: spaceBetweenLinesSmall),
           LanguageLevelsButtonsRowCmp(
             label: '${Student.fGoalLabel}: ',
             isSelected: (val) => formWrap.student.goal.value == val,

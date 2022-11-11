@@ -3,12 +3,61 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:random_password_generator/random_password_generator.dart';
 import 'package:workbook/services/app/navigation/navigation_service.dart';
+import 'package:workbook/services/teachers/teacher_repository.dart';
+import 'package:workbook/services/students/student_repository.dart';
+
+import 'package:workbook/models/teacher.dart';
+import 'package:workbook/models/student.dart';
 import 'package:workbook/ui/screens/auth/login_screen.dart';
 
 class FirebaseAuthService {
+  static bool get isTeacher => teacher != null;
+
+  static Teacher? teacher;
+  static String? get teacherId => teacher?.id;
+
+  static Student? student;
+  static String? get studentId => student?.id;
+
+  static Future initUserProfile() async {
+    if (userId == null) return;
+    TeacherRepository teacherRepo = TeacherRepository();
+    teacher = await teacherRepo.queryTeacherByUserId(userId!);
+    if (teacher != null) return;
+    StudentRepository studentRepo = StudentRepository();
+    student = await studentRepo.queryStudentByUserId(userId!);
+    initStudentDataIfFirstLogin();
+  }
+
+  static Future initStudentDataIfFirstLogin() async {
+    if (!student!.isVerified) {
+      StudentRepository repo = StudentRepository();
+      await FirebaseAuthService.updateUserName(student!.name.value);
+      Student newStudent = student!.copy(isVerified: true);
+      await repo.updateRecord(newStudent, student!);
+    }
+  }
+
+  static void clearUserProfile() {
+    teacher = null;
+    student = null;
+  }
+
+  static Future updateUserProfile(
+      dynamic newProfile, dynamic oldProfile) async {
+    if (FirebaseAuthService.isTeacher) {
+      TeacherRepository repo = TeacherRepository();
+      await repo.updateRecord(newProfile);
+      teacher = newProfile.copy();
+    } else {
+      StudentRepository repo = StudentRepository();
+      await repo.updateRecord(newProfile, oldProfile);
+      student = newProfile.copy();
+    }
+  }
+
   static FirebaseAuth get auth => FirebaseAuth.instance;
   static User? get user => auth.currentUser;
   static String? get userId => user?.uid;
@@ -18,7 +67,7 @@ class FirebaseAuthService {
   static void listenUserLoggedOut() {
     auth.idTokenChanges().listen((User? user) async {
       if (user == null) {
-        await NavigationService.clearRouteAndPushNamed(LoginScreen.id, null);
+        toLoginScreen();
       }
     });
   }
@@ -26,10 +75,15 @@ class FirebaseAuthService {
   // returns uid if user is logged in, otherwise - navigate to login page
   static String? getUserIdIfLoggedIn() {
     if (!loggedIn) {
-      NavigationService.clearRouteAndPushNamed(LoginScreen.id, null);
+      toLoginScreen();
       return null;
     }
     return userId!;
+  }
+
+  static void toLoginScreen() {
+    clearUserProfile();
+    NavigationService.clearRouteAndPushNamed(LoginScreen.id, null);
   }
 
   // returns true id user is logged in; otherwise - false
@@ -55,8 +109,8 @@ class FirebaseAuthService {
     String newPassword = passwordGenerator.randomPassword(
         letters: true,
         numbers: true,
-        passwordLength: 8,
-        specialChar: true,
+        passwordLength: 6,
+        specialChar: false,
         uppercase: true);
     return newPassword;
   }
@@ -72,7 +126,11 @@ class FirebaseAuthService {
   }
 
   // log out
-  static Future logOut() async => await auth.signOut();
+  static Future logOut() async {
+    await auth.signOut();
+    clearUserProfile();
+  }
+
   // update user name
   static Future updateUserName(String newName) async =>
       await user?.updateDisplayName(newName);
@@ -82,4 +140,7 @@ class FirebaseAuthService {
   // update user avatar photo url
   static Future updateUserPhotoURL(String newURL) async =>
       await user?.updatePhotoURL(newURL);
+  // update user password
+  static Future updatePassword(String newPassword) async =>
+      await user?.updatePassword(newPassword);
 }

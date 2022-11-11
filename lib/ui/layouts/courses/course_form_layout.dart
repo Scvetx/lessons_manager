@@ -24,7 +24,8 @@ class CourseFormLayout extends StatelessWidget {
         title: Text('${formWrap.isNew ? labelNew : labelEdit} ${Course.label}'),
       ),
       body: ScreenContainerCmp(
-          child: Column(children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         FormCmp(formWrap.fieldsMap),
       ])),
       bottomNavigationBar:

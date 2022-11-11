@@ -94,7 +94,6 @@ class CoursesListBloc extends Bloc<CoursesListEvent, CoursesListState> {
     // get lessons related to the course
     event.course.lessons =
         await _lessonRepository.queryLessonsByCourseId(event.course.id!);
-
     NavigationService.pushNamed(CourseFormScreen.id, event.course);
   }
 

@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+/* Custom Widget - new student: popup wrap
+*/
 
+import 'package:flutter/material.dart';
 import 'package:workbook/ui/components/app/popups/popup_wrap.dart';
 import 'new_student_popup_actions_cmp.dart';
 import 'new_student_popup_content_cmp.dart';

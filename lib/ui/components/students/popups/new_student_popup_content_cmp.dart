@@ -1,3 +1,6 @@
+/* Custom Widget - new student: popup content
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workbook/bloc/students/student_form/student_form_bloc.dart';

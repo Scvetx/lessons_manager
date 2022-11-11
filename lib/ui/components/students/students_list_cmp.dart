@@ -11,6 +11,7 @@ import 'package:workbook/constants/styles/app_style.dart';
 import 'package:workbook/constants/styles/object_view_style.dart';
 import 'package:workbook/ui/components/app/list/list_cmp.dart';
 import 'package:workbook/ui/components/app/text/text_in_circle_cmp.dart';
+import 'package:workbook/ui/components/app/buttons/edit_button_cmp.dart';
 
 class StudentsListCmp extends StatelessWidget {
   @override
@@ -44,9 +45,7 @@ class StudentsListCmp extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.topRight,
-              child: IconButton(
-                icon: const Icon(Icons.edit),
-                iconSize: 16,
+              child: EditButtonCmp(
                 onPressed: () => bloc.toEditRecord(curStudent),
               ),
             ),

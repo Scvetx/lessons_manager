@@ -16,7 +16,7 @@ class OutlinedRoundedButtonCmp extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.white,
         padding: defaultButtonPadding,
-        // side: const BorderSide(color: defaultButtonColor),
+        side: const BorderSide(color: defaultButtonColor),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(roundedButtonRadius)),
       ),

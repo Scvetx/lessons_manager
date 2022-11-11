@@ -4,8 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:workbook/constants/labels.dart';
 import 'package:workbook/constants/styles/app_style.dart';
+import 'package:workbook/services/app/firebase/firebase_auth_service.dart';
 import 'package:workbook/ui/components/app/buttons/link_text.dart';
-import 'package:workbook/ui/screens/auth/login_screen.dart';
 
 class ErrLoggedOutCmp extends StatelessWidget {
   @override
@@ -21,9 +21,7 @@ class ErrLoggedOutCmp extends StatelessWidget {
               const SizedBox(width: spaceBetweenLinesSmall),
               LinkText(
                 text: labelLoginButton,
-                onPressed: () {
-                  Navigator.popAndPushNamed(context, LoginScreen.id);
-                },
+                onPressed: () => FirebaseAuthService.toLoginScreen(),
               ),
             ]),
       ]),

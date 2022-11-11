@@ -14,6 +14,7 @@ import 'package:workbook/constants/styles/object_view_style.dart';
 import 'package:workbook/ui/components/app/containers/screen_container_cmp.dart';
 import 'package:workbook/ui/components/app/buttons/bottom_button_cmp.dart';
 import 'package:workbook/ui/components/courses/courses_names_row_cmp.dart';
+import 'package:workbook/ui/components/app/buttons/edit_button_cmp.dart';
 
 class StudentViewLayout extends StatelessWidget {
   @override
@@ -28,7 +29,17 @@ class StudentViewLayout extends StatelessWidget {
       ),
       body: ScreenContainerCmp(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(viewWrap.student.name.value, style: ovTitleLargeStyle),
+          Row(children: [
+            Expanded(
+                child: Text(viewWrap.student.name.value,
+                    style: ovTitleLargeStyle)),
+            Align(
+              alignment: Alignment.topRight,
+              child: EditButtonCmp(
+                onPressed: () => bloc.toEditRecord(),
+              ),
+            ),
+          ]),
           const SizedBox(height: spaceBetweenLines),
           Row(children: [
             SizedBox(

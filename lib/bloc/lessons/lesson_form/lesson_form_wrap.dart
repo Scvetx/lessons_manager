@@ -12,8 +12,8 @@ class LessonFormWrap {
     if (lesson == null) {
       // user is creating record
       isNew = true;
-      String teacherId = FirebaseAuthService.getUserIdIfLoggedIn() ?? '';
-      this.lesson = Lesson(teacherId: teacherId);
+      String teacherId = FirebaseAuthService.teacherId ?? '';
+      this.lesson = Lesson.create(teacherId: teacherId);
     } else {
       // user is editing record
       oldLesson = lesson.copy();

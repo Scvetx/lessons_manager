@@ -24,9 +24,7 @@ class StudentsListLayout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(Student.labelPlural),
-        actions: [
-          AppMenuCmp(),
-        ],
+        actions: listWrap.isRelatedList ? null : [AppMenuCmp()],
       ),
       body: ScreenContainerCmp(
         child: StudentsListCmp(),

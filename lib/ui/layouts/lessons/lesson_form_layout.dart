@@ -13,7 +13,7 @@ import 'package:workbook/constants/styles/app_style.dart';
 import 'package:workbook/ui/components/app/containers/screen_container_cmp.dart';
 import 'package:workbook/ui/components/app/form/form_cmp.dart';
 import 'package:workbook/ui/components/app/buttons/bottom_button_cmp.dart';
-import 'package:workbook/ui/components/language_level/language_levels_buttons_row_cmp.dart';
+import 'package:workbook/ui/components/language_levels/language_levels_buttons_row_cmp.dart';
 import 'package:workbook/ui/components/courses/courses_buttons_row_cmp.dart';
 import 'package:workbook/ui/components/app/data_buttons/button_wrap.dart';
 
@@ -29,7 +29,8 @@ class LessonFormLayout extends StatelessWidget {
         title: Text('${formWrap.isNew ? labelNew : labelEdit} ${Lesson.label}'),
       ),
       body: ScreenContainerCmp(
-          child: Column(children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         FormCmp(formWrap.fieldsMap),
         LanguageLevelsButtonsRowCmp(
           label: '${Lesson.fLanguageLevelLabel}: ',
@@ -41,7 +42,7 @@ class LessonFormLayout extends StatelessWidget {
         const SizedBox(height: spaceBetweenLines),
         CoursesButtonsRowCmp(
           multipleSelect: false,
-          isSelected: (String courseId) => formWrap.lesson.courseId == courseId,
+          isSelected: (val) => formWrap.lesson.courseId == val,
           onSelect: (ButtonWrap btn) {
             formWrap.lesson.courseId = btn.selected ? btn.key : '';
             formWrap.lesson.course = btn.selected ? btn.data as Course : null;

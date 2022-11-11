@@ -5,8 +5,7 @@ import 'package:workbook/services/app/firebase/firebase_auth_service.dart';
 import 'package:workbook/services/app/firebase/query_filter.dart';
 import 'package:workbook/services/lessons/lesson_provider.dart';
 
-import 'package:workbook/constants/labels.dart';
-import 'package:workbook/models/cobject.dart';
+import 'package:workbook/models/dbobject.dart';
 import 'package:workbook/models/lesson.dart';
 
 class LessonRepository {
@@ -25,16 +24,12 @@ class LessonRepository {
 
 // ----- QUERY: LESSONS -----
   // query all lessons related to the teacher
-  Future<List<Lesson>> queryAllLessons() async =>
-      await _provider.queryLessons(filtersAllActiveLessons);
+  Future<List<Lesson>> queryAllLessons() async => FirebaseAuthService.isTeacher
+      ? await _provider
+          .queryLessons([TeacherIdQueryFilter(FirebaseAuthService.teacherId!)])
+      : await _provider.queryLessons([]);
 
-  // get filters: 1) related to the teacher 2) isActive = true
-  List<QueryFilter> get filtersAllActiveLessons {
-    String? teacherId = FirebaseAuthService.getUserIdIfLoggedIn();
-    if (teacherId == null) throw Exception(errNotLoggedIn);
-    return [TeacherIdQueryFilter(teacherId)];
-  }
-
+  // query lessons by parent course id
   Future<List<Lesson>> queryLessonsByCourseId(String courseId) async {
     List<QueryFilter> filters = [CourseIdQueryFilter(courseId)];
     return _provider.queryLessons(filters);
@@ -42,9 +37,9 @@ class LessonRepository {
 
 // ----- FILTER RECORDS -----
   List<Lesson> filterLessonsByIds(List<Lesson> lessons, Set<String> ids) {
-    List<CObject> cObjects = _provider.filterCObjectsByIds(lessons, ids);
+    List<DBObject> dbObjects = _provider.filterDBObjectsByIds(lessons, ids);
     List<Lesson> filteredLessons =
-        cObjects.map((cObj) => cObj as Lesson).toList();
+        dbObjects.map((cObj) => cObj as Lesson).toList();
     return filteredLessons;
   }
 }

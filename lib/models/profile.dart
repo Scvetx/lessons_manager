@@ -26,19 +26,17 @@ class Profile extends CObject {
 
 // ----- CONSTRUCTORS -----
   // Profile obj with empty fields: used when creating a new User record
-  Profile() : super.initEmpty(nameLength: fNameLength);
+  Profile() : super.create(nameLength: fNameLength);
 
-  // convert User obj to Profile obj
-  Profile.fromUser(User user)
-      : super.fromValues(
-            name: user.displayName ?? '', nameLength: fNameLength) {
+  // set User fields on the profile obj to Profile obj
+  void setUserData(User user) {
     photoURL = user.photoURL ?? '';
     email.value = user.email ?? '';
   }
 
   // parse db map to Profile obj
   Profile.fromMap(Map<String, dynamic> objMap)
-      : super.fromValues(name: objMap['name'] ?? '', nameLength: fNameLength) {
+      : super.fromMap(objMap, nameLength: fNameLength) {
     photoURL = objMap['photoURL'] ?? '';
     email.value = objMap['email'] ?? '';
   }
@@ -70,7 +68,7 @@ class Profile extends CObject {
   @override
   void setFormTextFields(Map<String, TextCField> fieldsMap) {
     super.setFormTextFields(fieldsMap);
-    email.value = fieldsMap['email']!.value;
+    email.value = fieldsMap['email']!.formattedValue;
   }
 
 // ----- VALIDATE FIELDS METHODS -----
